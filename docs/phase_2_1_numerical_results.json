@@ -1,0 +1,870 @@
+{
+  "fixture": "Synthetic 35 API, gas SG .75, 90 C, Pi 30 MPa, Pb 18 MPa, Rsb 90 m3/m3; range 2\u201335 MPa",
+  "units": "Canonical SI; co=null means not applicable below Pb",
+  "qc": {
+    "raw": {
+      "pressure_count": 1013,
+      "counts": {
+        "PASS": 26,
+        "CAUTION": 10
+      },
+      "checks": [
+        {
+          "status": "PASS",
+          "check": "Pressure-range coverage",
+          "detail": "Continuous evaluation within the requested range; requests outside it are rejected."
+        },
+        {
+          "status": "PASS",
+          "check": "bo positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "rs positivity",
+          "detail": "Finite, nonnegative at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "oil_viscosity positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "z positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "bg positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "bw positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Saturation anchors",
+          "detail": "Untuned Rs curve is normalized to the selected Pb/Rsb anchors by factor 0.813945. Factors differing from 1 by >10% need review."
+        },
+        {
+          "status": "PASS",
+          "check": "co positivity",
+          "detail": "Undersaturated co checked at/above Pb; not applicable below Pb."
+        },
+        {
+          "status": "PASS",
+          "check": "rs trend",
+          "detail": "Expected increasing with pressure on the checked branch; 492 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "bo trend",
+          "detail": "Expected increasing with pressure on the checked branch; 492 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "bo trend",
+          "detail": "Expected decreasing with pressure on the checked branch; 522 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "oil_viscosity trend",
+          "detail": "Expected decreasing with pressure on the checked branch; 492 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "oil_viscosity trend",
+          "detail": "Expected increasing with pressure on the checked branch; 522 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "bg trend",
+          "detail": "Expected decreasing with pressure on the checked branch; 1013 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "bw trend",
+          "detail": "Expected decreasing with pressure on the checked branch; 1013 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "Rsb plateau",
+          "detail": "Rs must not exceed Rsb; above Pb it must equal Rsb."
+        },
+        {
+          "status": "PASS",
+          "check": "Pb continuity: bo",
+          "detail": "Relative change across Pb \u00b11e-6: 2.37e-07; tolerance 1e-4."
+        },
+        {
+          "status": "PASS",
+          "check": "Pb continuity: rs",
+          "detail": "Relative change across Pb \u00b11e-6: 1.19e-06; tolerance 1e-4."
+        },
+        {
+          "status": "PASS",
+          "check": "Pb continuity: oil_viscosity",
+          "detail": "Relative change across Pb \u00b11e-6: 6.33e-07; tolerance 1e-4."
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: pb",
+          "detail": "Standing"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: rs",
+          "detail": "Standing"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: bo",
+          "detail": "Standing"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: oil_viscosity",
+          "detail": "Beggs\u2013Robinson / Vasquez\u2013Beggs"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: z",
+          "detail": "Dranchuk\u2013Abou-Kassem"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: bg",
+          "detail": "Real-gas law (selected z)"
+        },
+        {
+          "status": "CAUTION",
+          "check": "Applicability: bw",
+          "detail": "p outside 0\u20135000 psia."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Applicability: co",
+          "detail": "Verify gas gravity on the 100-psig separator basis; no correction is applied."
+        },
+        {
+          "status": "PASS",
+          "check": "Gas pseudo-critical method",
+          "detail": "Sutton; gas SG range (0.57, 1.68); Sweet gas; no composition correction."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "rs: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "oil_viscosity: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "z: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "bg: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "bw: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Extrapolation: bo",
+          "detail": "Requested range extends beyond laboratory support; QC samples are not validation of extrapolated accuracy."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Water composition",
+          "detail": "McCain Bw does not explicitly use entered salinity or water gravity."
+        }
+      ]
+    },
+    "matched": {
+      "pressure_count": 1013,
+      "counts": {
+        "PASS": 26,
+        "CAUTION": 10
+      },
+      "checks": [
+        {
+          "status": "PASS",
+          "check": "Pressure-range coverage",
+          "detail": "Continuous evaluation within the requested range; requests outside it are rejected."
+        },
+        {
+          "status": "PASS",
+          "check": "bo positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "rs positivity",
+          "detail": "Finite, nonnegative at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "oil_viscosity positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "z positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "bg positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "PASS",
+          "check": "bw positivity",
+          "detail": "Finite, positive at 1013 check pressures."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Saturation anchors",
+          "detail": "Untuned Rs curve is normalized to the selected Pb/Rsb anchors by factor 0.813945. Factors differing from 1 by >10% need review."
+        },
+        {
+          "status": "PASS",
+          "check": "co positivity",
+          "detail": "Undersaturated co checked at/above Pb; not applicable below Pb."
+        },
+        {
+          "status": "PASS",
+          "check": "rs trend",
+          "detail": "Expected increasing with pressure on the checked branch; 492 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "bo trend",
+          "detail": "Expected increasing with pressure on the checked branch; 492 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "bo trend",
+          "detail": "Expected decreasing with pressure on the checked branch; 522 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "oil_viscosity trend",
+          "detail": "Expected decreasing with pressure on the checked branch; 492 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "oil_viscosity trend",
+          "detail": "Expected increasing with pressure on the checked branch; 522 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "bg trend",
+          "detail": "Expected decreasing with pressure on the checked branch; 1013 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "bw trend",
+          "detail": "Expected decreasing with pressure on the checked branch; 1013 samples."
+        },
+        {
+          "status": "PASS",
+          "check": "Rsb plateau",
+          "detail": "Rs must not exceed Rsb; above Pb it must equal Rsb."
+        },
+        {
+          "status": "PASS",
+          "check": "Pb continuity: bo",
+          "detail": "Relative change across Pb \u00b11e-6: 2.3e-07; tolerance 1e-4."
+        },
+        {
+          "status": "PASS",
+          "check": "Pb continuity: rs",
+          "detail": "Relative change across Pb \u00b11e-6: 1.19e-06; tolerance 1e-4."
+        },
+        {
+          "status": "PASS",
+          "check": "Pb continuity: oil_viscosity",
+          "detail": "Relative change across Pb \u00b11e-6: 6.33e-07; tolerance 1e-4."
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: pb",
+          "detail": "Standing"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: rs",
+          "detail": "Standing"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: bo",
+          "detail": "Standing"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: oil_viscosity",
+          "detail": "Beggs\u2013Robinson / Vasquez\u2013Beggs"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: z",
+          "detail": "Dranchuk\u2013Abou-Kassem"
+        },
+        {
+          "status": "PASS",
+          "check": "Applicability: bg",
+          "detail": "Real-gas law (selected z)"
+        },
+        {
+          "status": "CAUTION",
+          "check": "Applicability: bw",
+          "detail": "p outside 0\u20135000 psia."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Applicability: co",
+          "detail": "Verify gas gravity on the 100-psig separator basis; no correction is applied."
+        },
+        {
+          "status": "PASS",
+          "check": "Gas pseudo-critical method",
+          "detail": "Sutton; gas SG range (0.57, 1.68); Sweet gas; no composition correction."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "rs: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "oil_viscosity: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "z: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "bg: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Laboratory support",
+          "detail": "bw: 0 laboratory points; sparse or absent support."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Extrapolation: bo",
+          "detail": "Requested range extends beyond laboratory support; QC samples are not validation of extrapolated accuracy."
+        },
+        {
+          "status": "CAUTION",
+          "check": "Water composition",
+          "detail": "McCain Bw does not explicitly use entered salinity or water gravity."
+        }
+      ]
+    }
+  },
+  "bubble_point_probes": {
+    "standing_raw": [
+      {
+        "p_over_pb": 0.99,
+        "pressure_Pa": 17820000.0,
+        "rs": 88.92723537131249,
+        "bo": 1.302105730015895,
+        "oil_viscosity": 0.000586498357752092,
+        "co": null
+      },
+      {
+        "p_over_pb": 0.999,
+        "pressure_Pa": 17982000.0,
+        "rs": 89.89262523354556,
+        "bo": 1.3048831491772714,
+        "oil_viscosity": 0.0005831489022265461,
+        "co": null
+      },
+      {
+        "p_over_pb": 1,
+        "pressure_Pa": 18000000.0,
+        "rs": 90.0,
+        "bo": 1.3051922794733666,
+        "oil_viscosity": 0.0005827794788135676,
+        "co": 2.1919913034943066e-09
+      },
+      {
+        "p_over_pb": 1.001,
+        "pressure_Pa": 18017999.999999996,
+        "rs": 90.0,
+        "bo": 1.3051408087575864,
+        "oil_viscosity": 0.0005829157999702505,
+        "co": 2.189801501992315e-09
+      },
+      {
+        "p_over_pb": 1.01,
+        "pressure_Pa": 18180000.0,
+        "rs": 90.0,
+        "bo": 1.3046799632596218,
+        "oil_viscosity": 0.0005841496504315086,
+        "co": 2.1702884193012937e-09
+      }
+    ],
+    "standing_matched": [
+      {
+        "p_over_pb": 0.99,
+        "pressure_Pa": 17820000.0,
+        "rs": 89.03451183418125,
+        "bo": 1.368462476116191,
+        "oil_viscosity": 0.0007447360113525147,
+        "co": null
+      },
+      {
+        "p_over_pb": 0.999,
+        "pressure_Pa": 17982000.0,
+        "rs": 89.903362710191,
+        "bo": 1.3710123414892836,
+        "oil_viscosity": 0.0007414231252357169,
+        "co": null
+      },
+      {
+        "p_over_pb": 1,
+        "pressure_Pa": 18000000.0,
+        "rs": 90.0,
+        "bo": 1.371296125062834,
+        "oil_viscosity": 0.0007410574266949244,
+        "co": 2.128052048845166e-09
+      },
+      {
+        "p_over_pb": 1.001,
+        "pressure_Pa": 18017999.999999996,
+        "rs": 90.0,
+        "bo": 1.3712436249327382,
+        "oil_viscosity": 0.0007412073799672755,
+        "co": 2.1259236771572212e-09
+      },
+      {
+        "p_over_pb": 1.01,
+        "pressure_Pa": 18180000.0,
+        "rs": 90.0,
+        "bo": 1.3707735625248143,
+        "oil_viscosity": 0.0007425646154746595,
+        "co": 2.1069580931662066e-09
+      }
+    ],
+    "vasquez_beggs_raw": [
+      {
+        "p_over_pb": 0.99,
+        "pressure_Pa": 17820000.0,
+        "rs": 88.93270157975051,
+        "bo": 1.306143805179618,
+        "oil_viscosity": 0.0005864792492668993,
+        "co": null
+      },
+      {
+        "p_over_pb": 0.999,
+        "pressure_Pa": 17982000.0,
+        "rs": 89.89317999131315,
+        "bo": 1.308707276246192,
+        "oil_viscosity": 0.0005831469919889181,
+        "co": null
+      },
+      {
+        "p_over_pb": 1,
+        "pressure_Pa": 18000000.0,
+        "rs": 90.0,
+        "bo": 1.3089923737541667,
+        "oil_viscosity": 0.0005827794788135676,
+        "co": 2.1919913034943066e-09
+      },
+      {
+        "p_over_pb": 1.001,
+        "pressure_Pa": 18017999.999999996,
+        "rs": 90.0,
+        "bo": 1.3089407531803345,
+        "oil_viscosity": 0.0005829157999702505,
+        "co": 2.189801501992315e-09
+      },
+      {
+        "p_over_pb": 1.01,
+        "pressure_Pa": 18180000.0,
+        "rs": 90.0,
+        "bo": 1.3084785659211835,
+        "oil_viscosity": 0.0005841496504315086,
+        "co": 2.1702884193012937e-09
+      }
+    ],
+    "vasquez_beggs_matched": [
+      {
+        "p_over_pb": 0.99,
+        "pressure_Pa": 17820000.0,
+        "rs": 89.03943142177546,
+        "bo": 1.3725572352778141,
+        "oil_viscosity": 0.0007447171257874411,
+        "co": null
+      },
+      {
+        "p_over_pb": 0.999,
+        "pressure_Pa": 17982000.0,
+        "rs": 89.90386199218183,
+        "bo": 1.3749105017169294,
+        "oil_viscosity": 0.0007414212344165002,
+        "co": null
+      },
+      {
+        "p_over_pb": 1,
+        "pressure_Pa": 18000000.0,
+        "rs": 90.0,
+        "bo": 1.37517222122925,
+        "oil_viscosity": 0.0007410574266949244,
+        "co": 2.1282322696902376e-09
+      },
+      {
+        "p_over_pb": 1.001,
+        "pressure_Pa": 18017999.999999996,
+        "rs": 90.0,
+        "bo": 1.3751195682439412,
+        "oil_viscosity": 0.0007412073799672755,
+        "co": 2.126103724648088e-09
+      },
+      {
+        "p_over_pb": 1.01,
+        "pressure_Pa": 18180000.0,
+        "rs": 90.0,
+        "bo": 1.3746481372396073,
+        "oil_viscosity": 0.0007425646154746595,
+        "co": 2.10713659563071e-09
+      }
+    ],
+    "glaso_raw": [
+      {
+        "p_over_pb": 0.99,
+        "pressure_Pa": 17820000.0,
+        "rs": 88.92591825133087,
+        "bo": 1.2655177231403802,
+        "oil_viscosity": 0.0005865029623170863,
+        "co": null
+      },
+      {
+        "p_over_pb": 0.999,
+        "pressure_Pa": 17982000.0,
+        "rs": 89.89237603384078,
+        "bo": 1.2683070028411807,
+        "oil_viscosity": 0.0005831497603193339,
+        "co": null
+      },
+      {
+        "p_over_pb": 1,
+        "pressure_Pa": 18000000.0,
+        "rs": 90.0,
+        "bo": 1.2686178476118766,
+        "oil_viscosity": 0.0005827794788135676,
+        "co": 2.1919913034943066e-09
+      },
+      {
+        "p_over_pb": 1.001,
+        "pressure_Pa": 18017999.999999996,
+        "rs": 90.0,
+        "bo": 1.2685678192216578,
+        "oil_viscosity": 0.0005829157999702505,
+        "co": 2.189801501992315e-09
+      },
+      {
+        "p_over_pb": 1.01,
+        "pressure_Pa": 18180000.0,
+        "rs": 90.0,
+        "bo": 1.2681198876540996,
+        "oil_viscosity": 0.0005841496504315086,
+        "co": 2.1702884193012937e-09
+      }
+    ],
+    "glaso_matched": [
+      {
+        "p_over_pb": 0.99,
+        "pressure_Pa": 17820000.0,
+        "rs": 89.03332642619779,
+        "bo": 1.3311440758424458,
+        "oil_viscosity": 0.0007447405621759964,
+        "co": null
+      },
+      {
+        "p_over_pb": 0.999,
+        "pressure_Pa": 17982000.0,
+        "rs": 89.9031384304567,
+        "bo": 1.3337048469363353,
+        "oil_viscosity": 0.0007414239746050783,
+        "co": null
+      },
+      {
+        "p_over_pb": 1,
+        "pressure_Pa": 18000000.0,
+        "rs": 90.0,
+        "bo": 1.333990204564114,
+        "oil_viscosity": 0.0007410574266949244,
+        "co": 2.1262639451975325e-09
+      },
+      {
+        "p_over_pb": 1.001,
+        "pressure_Pa": 18017999.999999996,
+        "rs": 90.0,
+        "bo": 1.333939175606091,
+        "oil_viscosity": 0.0007412073799672755,
+        "co": 2.1241372935475078e-09
+      },
+      {
+        "p_over_pb": 1.01,
+        "pressure_Pa": 18180000.0,
+        "rs": 90.0,
+        "bo": 1.3334822854071815,
+        "oil_viscosity": 0.0007425646154746595,
+        "co": 2.105187039461408e-09
+      }
+    ]
+  },
+  "accepted_bo_fit": {
+    "property": "bo",
+    "correlation": "standing_bo",
+    "a": 0.03999999999999937,
+    "b": 1.0200000000000002,
+    "n": 6,
+    "formulation": "A + B \u00d7 raw",
+    "before": {
+      "n": 6,
+      "rmse": 0.06447544321627238,
+      "mae": 0.06445772161037733,
+      "mape": 5.0182910222282855,
+      "max_ape": 5.327953452284446,
+      "bias": -0.06445772161037733,
+      "percentage_n": 6
+    },
+    "after": {
+      "n": 6,
+      "rmse": 4.1540741810552243e-16,
+      "mae": 4.070817756958907e-16,
+      "mape": 3.14464839267818e-14,
+      "max_ape": 3.656264410696995e-14,
+      "bias": -4.070817756958907e-16,
+      "percentage_n": 6
+    },
+    "maximum_full_range_deviation": 0.06610384558946691,
+    "maximum_full_range_deviation_percent": 5.696827066557597,
+    "maximum_deviation_pressure": 18000000.0,
+    "qc_before": "CAUTION",
+    "qc_after": "CAUTION"
+  },
+  "rejected_bo_fit": {
+    "record": {
+      "property": "bo",
+      "correlation": "standing_bo",
+      "a": -12.000000000000018,
+      "b": 10.000000000000014,
+      "n": 3,
+      "formulation": "A + B \u00d7 raw",
+      "before": {
+        "n": 3,
+        "rmse": 0.3937109121793499,
+        "mae": 0.37058483478541765,
+        "mape": 44.05743138468089,
+        "max_ape": 77.8281779342833,
+        "bias": 0.37058483478541765,
+        "percentage_n": 3
+      },
+      "after": {
+        "n": 3,
+        "rmse": 0.0,
+        "mae": 0.0,
+        "mape": 0.0,
+        "max_ape": 0.0,
+        "bias": 0.0,
+        "percentage_n": 3
+      },
+      "maximum_full_range_deviation": 2.2619193833370135,
+      "maximum_full_range_deviation_percent": 209.04811996729063,
+      "maximum_deviation_pressure": 2000000.0,
+      "qc_before": "CAUTION",
+      "qc_after": "FAIL"
+    },
+    "reasons": [
+      "bo evaluation: Nonphysical bo at 2e+06 Pa."
+    ],
+    "candidate_bo_at_2_MPa": -1.1799104259300108
+  },
+  "mbe_equivalence": {
+    "maximum_property_difference": 0.0,
+    "both_converged": true,
+    "steps": [
+      {
+        "date": "2020-02-01",
+        "table": {
+          "pressure_Pa": 29525119.257381067,
+          "Fnet_m3": 6648.567837036399,
+          "Eo": 0.0018995229704756866,
+          "mEg": 0.004273926683570415,
+          "Efw": 0.00047511818299024276,
+          "residual_m3": 5.547917680814862e-11
+        },
+        "correlation": {
+          "pressure_Pa": 29525119.257381067,
+          "Fnet_m3": 6648.567837036399,
+          "Eo": 0.0018995229704756866,
+          "mEg": 0.004273926683570415,
+          "Efw": 0.00047511818299024276,
+          "residual_m3": 5.547917680814862e-11
+        },
+        "absolute_difference": {
+          "pressure_Pa": 0.0,
+          "Fnet_m3": 0.0,
+          "Eo": 0.0,
+          "mEg": 0.0,
+          "Efw": 0.0,
+          "residual_m3": 0.0
+        }
+      },
+      {
+        "date": "2020-03-01",
+        "table": {
+          "pressure_Pa": 28084382.516739987,
+          "Fnet_m3": 26819.602574381868,
+          "Eo": 0.007662469933040095,
+          "mEg": 0.017240557349340112,
+          "Efw": 0.0019165752920016431,
+          "residual_m3": 1.8189894035458565e-11
+        },
+        "correlation": {
+          "pressure_Pa": 28084382.51673998,
+          "Fnet_m3": 26819.602574381868,
+          "Eo": 0.007662469933040095,
+          "mEg": 0.017240557349340192,
+          "Efw": 0.0019165752920016507,
+          "residual_m3": -7.275957614183426e-11
+        },
+        "absolute_difference": {
+          "pressure_Pa": 7.450580596923828e-09,
+          "Fnet_m3": 0.0,
+          "Eo": 0.0,
+          "mEg": 7.979727989493313e-17,
+          "Efw": 7.589415207398531e-18,
+          "residual_m3": 9.094947017729282e-11
+        }
+      },
+      {
+        "date": "2020-04-01",
+        "table": {
+          "pressure_Pa": 25128402.953819025,
+          "Fnet_m3": 68204.79444505674,
+          "Eo": 0.019486388184723813,
+          "mEg": 0.04384437341562875,
+          "Efw": 0.004874032844704065,
+          "residual_m3": 1.1641532182693481e-10
+        },
+        "correlation": {
+          "pressure_Pa": 25128402.95381903,
+          "Fnet_m3": 68204.79444505674,
+          "Eo": 0.019486388184723813,
+          "mEg": 0.04384437341562872,
+          "Efw": 0.004874032844704061,
+          "residual_m3": 1.6007106751203537e-10
+        },
+        "absolute_difference": {
+          "pressure_Pa": 3.725290298461914e-09,
+          "Fnet_m3": 0.0,
+          "Eo": 0.0,
+          "mEg": 3.469446951953614e-17,
+          "Efw": 3.469446951953614e-18,
+          "residual_m3": 4.3655745685100555e-11
+        }
+      }
+    ],
+    "tolerances": {
+      "pressure_Pa": 1e-06,
+      "Fnet_m3": 1e-07,
+      "Eo": 1e-12,
+      "mEg": 1e-12,
+      "Efw": 1e-12,
+      "residual_m3": 1e-07
+    },
+    "scope": "Synthetic identical-functions interface check; no empirical accuracy claim."
+  },
+  "core_files": [
+    {
+      "path": "src\\material_balance_studio\\mbe\\__init__.py",
+      "sha256": "261004AE562D6573565A155E4537B6E9DBD837B7D99123C14F5665BFAAFADFA4",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\mbe\\expansion.py",
+      "sha256": "240175B5BE03D01E5A9720858BE7861ACCA14CA03DB64BE1AD8E05F2822C7258",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\mbe\\oil_balance.py",
+      "sha256": "37FC46E03497575E79B13B37BE930DCD2769DA03F4D05B261EB97B1304140EA7",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\mbe\\withdrawal.py",
+      "sha256": "64278D7BEB9B72BE51CEAA0D4943CBEE47205A4536726AF3EBB061E793DA455C",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\solver\\__init__.py",
+      "sha256": "653F5B27D9D0667E367C90137D742AD79640BB6E4AD54E526DF058E8B100E4A6",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\solver\\pressure_solver.py",
+      "sha256": "52499AE304190CB6375DC320B19B0E70849C4AFC9686E59782FA584482368503",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\solver\\simulation.py",
+      "sha256": "8EE54B55B7DB73053FB866CA1E3CA11D76F7603A7A0EEB9D263E9A0111ACAE27",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\solver\\timestep.py",
+      "sha256": "4525163234AE42F4A071074291C8B22984B10B7F2BE4C3F8942DECEC0D9E3B2D",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\domain\\__init__.py",
+      "sha256": "2AB226AA23B8883540C8A3054D84D4B10F0F4C785A088E5CD8A1DA787BE67AFC",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\domain\\models.py",
+      "sha256": "94C6779D5B773C9751DEC40E64F400B82B9D5D8D7251A76B7905123718934839",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\domain\\validation.py",
+      "sha256": "BE4D2413DD0F44B18849E20CB532562118C76E761D3618A9FE1F1E37C3A778EC",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\pvt\\base.py",
+      "sha256": "508CAF6A736641D0D893AB5F7D967FE30235ADADABD8A7ECAC24C3A1FAF01246",
+      "unchanged": true
+    },
+    {
+      "path": "src\\material_balance_studio\\pvt\\table_model.py",
+      "sha256": "638ECAF60172B73DEBC445E2B17B614F740B47870EC29B623121320D2886CB7D",
+      "unchanged": true
+    }
+  ],
+  "all_core_files_unchanged": true
+}

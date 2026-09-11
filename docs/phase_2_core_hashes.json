@@ -1,0 +1,59 @@
+{
+  "verified_on": "2026-09-10",
+  "comparison": "SHA-256 values captured before Phase 2 implementation versus completion",
+  "unchanged": true,
+  "files": [
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\mbe\\__init__.py",
+      "Hash": "261004AE562D6573565A155E4537B6E9DBD837B7D99123C14F5665BFAAFADFA4"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\mbe\\expansion.py",
+      "Hash": "240175B5BE03D01E5A9720858BE7861ACCA14CA03DB64BE1AD8E05F2822C7258"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\mbe\\oil_balance.py",
+      "Hash": "37FC46E03497575E79B13B37BE930DCD2769DA03F4D05B261EB97B1304140EA7"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\mbe\\withdrawal.py",
+      "Hash": "64278D7BEB9B72BE51CEAA0D4943CBEE47205A4536726AF3EBB061E793DA455C"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\solver\\__init__.py",
+      "Hash": "653F5B27D9D0667E367C90137D742AD79640BB6E4AD54E526DF058E8B100E4A6"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\solver\\pressure_solver.py",
+      "Hash": "52499AE304190CB6375DC320B19B0E70849C4AFC9686E59782FA584482368503"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\solver\\simulation.py",
+      "Hash": "8EE54B55B7DB73053FB866CA1E3CA11D76F7603A7A0EEB9D263E9A0111ACAE27"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\solver\\timestep.py",
+      "Hash": "4525163234AE42F4A071074291C8B22984B10B7F2BE4C3F8942DECEC0D9E3B2D"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\domain\\__init__.py",
+      "Hash": "2AB226AA23B8883540C8A3054D84D4B10F0F4C785A088E5CD8A1DA787BE67AFC"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\domain\\models.py",
+      "Hash": "94C6779D5B773C9751DEC40E64F400B82B9D5D8D7251A76B7905123718934839"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\domain\\validation.py",
+      "Hash": "BE4D2413DD0F44B18849E20CB532562118C76E761D3618A9FE1F1E37C3A778EC"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\pvt\\base.py",
+      "Hash": "508CAF6A736641D0D893AB5F7D967FE30235ADADABD8A7ECAC24C3A1FAF01246"
+    },
+    {
+      "Path": "E:\\Code_Folder\\MBE_tool\\src\\material_balance_studio\\pvt\\table_model.py",
+      "Hash": "638ECAF60172B73DEBC445E2B17B614F740B47870EC29B623121320D2886CB7D"
+    }
+  ]
+}
