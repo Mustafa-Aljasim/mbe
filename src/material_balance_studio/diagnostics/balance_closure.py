@@ -7,6 +7,7 @@ from typing import Any
 import pandas as pd
 
 from material_balance_studio.domain.models import CUMULATIVE_FIELDS, SimulationResult, SimulationState
+from material_balance_studio.aquifer.transient import diagnostics_from_variables, history_entries
 
 
 def inspect_state(state: SimulationState) -> dict[str, Any]:
@@ -54,6 +55,19 @@ def inspect_state(state: SimulationState) -> dict[str, Any]:
         "aquifer_driving_difference_pa": step.driving_pressure_difference if step else None,
         "aquifer_elapsed_seconds": aq.elapsed_time if aq else 0.,
         "aquifer_model_parameters": dict(aq.model_parameters) if aq else {},
+        "aquifer_model_variables": dict(aq.model_variables) if aq else {},
+    })
+    diagnostics = diagnostics_from_variables(aq.model_variables) if aq else {}
+    row.update({
+        "aquifer_dimensionless_time": diagnostics.get("tD"),
+        "aquifer_dimensionless_pressure": diagnostics.get("dimensionless_pressure"),
+        "aquifer_dimensionless_pressure_derivative": diagnostics.get("dimensionless_pressure_derivative"),
+        "aquifer_recurrence_term": diagnostics.get("recurrence_term"),
+        "aquifer_response_value": diagnostics.get("response_value"),
+        "aquifer_active_pressure_steps": diagnostics.get("active_pressure_steps"),
+        "aquifer_current_step_contribution_m3": diagnostics.get("current_step_contribution"),
+        "aquifer_historical_contribution_m3": diagnostics.get("historical_contribution"),
+        "aquifer_pressure_step_count": len(history_entries(aq.model_variables)) if aq else 0,
     })
     return row
 

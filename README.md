@@ -1,10 +1,10 @@
-# Material Balance Studio — Phase 3A
+# Material Balance Studio — Phase 3C
 
 An auditable calculation foundation for a single equilibrated black-oil tank with
 tabulated or correlation PVT, cumulative production/injection, and optional stateful aquifer support. The Streamlit
 interface is a functional test harness. The engine runs without Streamlit.
 Phase 1.1 stabilizes units and engineering diagnostics; the Phase 1 equations,
-PVT interpolation and reservoir expansion/withdrawal physics are preserved. Phase 3A
+PVT interpolation and reservoir expansion/withdrawal physics are preserved. Phase 3
 extends domain state and the chronological solver to include aquifer influx explicitly.
 
 Phase 2 adds independent property correlations, sparse laboratory imports/editing,
@@ -34,6 +34,21 @@ shows `Fnet = N Et + We`, with separate water influx, rate and pressure diagnost
 Signed pressure-reversal efflux is retained with warnings. See the
 [aquifer equations and references](docs/aquifer_phase_3a.md) and
 [Phase 3A acceptance report](docs/phase_3a_acceptance.md). PVT physics is unchanged.
+
+Phase 3B adds **Carter-Tracy** and original **Van Everdingen-Hurst** transient
+radial aquifers through the same immutable interface. VEH uses pressure-step
+superposition of the infinite-acting constant-terminal-pressure response;
+Carter-Tracy uses the published recursive dimensionless-pressure formulation.
+See the [transient aquifer engineering specification](docs/aquifer_phase_3b.md)
+and [Phase 3B acceptance report](docs/phase_3b_acceptance.md).
+
+Phase 3C adds **Modified Van Everdingen-Hurst (linear-pressure-history)** using
+the shared infinite-acting radial response. The **Aquifer Comparison** tab runs
+independent model parameter sets against common reservoir/history inputs, with
+pressure-error metrics, engineering QC, support fractions and optional one-parameter
+sensitivity previews. No aquifer/reservoir fitting is performed. See the
+[formulation and methodology](docs/aquifer_phase_3c.md) and
+[Phase 3C acceptance report](docs/phase_3c_acceptance.md).
 
 ## Run (Python 3.12)
 
@@ -343,7 +358,7 @@ See [Phase 2 validation](docs/phase_2_validation.md) for retained/new tests and
 the original core-file hash comparison. The synthetic Bo matching example
 recovers A=.04, B=1.02 and reduces RMSE from .0644754 to numerical zero.
 
-**Intentionally deferred:** Carter–Tracy, VEH and modified VEH aquifers, aquifer
-parameter matching, reservoir-parameter history matching,
+**Intentionally deferred:** finite VEH boundary behavior,
+aquifer parameter matching, reservoir-parameter history matching,
 multi-tank systems, transmissibility, forecasting, DCA, uncertainty analysis
 and PDF reporting.

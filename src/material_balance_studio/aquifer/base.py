@@ -36,7 +36,7 @@ class AquiferBase:
         return (p_previous+p)/2
 
     def step_result(self, previous, p, dt, cumulative, aquifer_pressure, average_pressure,
-                    endpoint_rate=None, driving_difference=None):
+                    endpoint_rate=None, driving_difference=None, model_variables=None):
         finite_value("aquifer cumulative influx", cumulative)
         delta = cumulative-previous.cumulative_influx
         finite_value("incremental aquifer influx", delta)
@@ -54,7 +54,7 @@ class AquiferBase:
             raise EngineeringValidationError("Aquifer pressure is below the permitted 1 Pa absolute lower bound.")
         updated = AquiferState(self.key, cumulative, aquifer_pressure, p,
                                previous.elapsed_time+dt, previous.initial_pressure,
-                               self.parameters, previous.model_variables)
+                               self.parameters, previous.model_variables if model_variables is None else model_variables)
         return AquiferStepResult(delta, cumulative, updated, delta/dt, endpoint_rate,
                                  previous.aquifer_pressure, average_pressure, driving_difference, tuple(warnings))
 

@@ -101,11 +101,30 @@ def equation_inspector_frame(state: SimulationState, units: UnitSystem | str) ->
         {"Quantity": "Previous Aquifer Pressure", "Value": format_value(to_display(raw["previous_aquifer_pressure_pa"], "pressure", units)), "Unit": display_unit("pressure", units)},
         {"Quantity": "Aquifer minus Average Reservoir Pressure", "Value": format_value(to_display(raw["aquifer_driving_difference_pa"], "pressure", units)), "Unit": display_unit("pressure", units)},
         {"Quantity": "Endpoint Aquifer Influx Rate", "Value": format_value(to_display(raw["aquifer_endpoint_rate_m3_s"], "aquifer_rate", units)), "Unit": display_unit("aquifer_rate", units)},
+        {"Quantity": "Aquifer Dimensionless Time tD", "Value": format_value(raw["aquifer_dimensionless_time"]), "Unit": "dimensionless"},
+        {"Quantity": "Aquifer Dimensionless Pressure PD", "Value": format_value(raw["aquifer_dimensionless_pressure"]), "Unit": "dimensionless"},
+        {"Quantity": "Aquifer Dimensionless Pressure Derivative", "Value": format_value(raw["aquifer_dimensionless_pressure_derivative"]), "Unit": "dimensionless"},
+        {"Quantity": "Aquifer Recurrence Term", "Value": format_value(raw["aquifer_recurrence_term"]), "Unit": "reservoir m³"},
+        {"Quantity": "VEH Response WeD", "Value": format_value(raw["aquifer_response_value"]), "Unit": "dimensionless"},
+        {"Quantity": "VEH Active Pressure Steps", "Value": format_value(raw["aquifer_active_pressure_steps"]), "Unit": "count"},
+        {"Quantity": "VEH Current Pressure-Step Contribution", "Value": format_value(to_display(raw["aquifer_current_step_contribution_m3"], "reservoir_volume", units)), "Unit": display_unit("reservoir_volume", units)},
+        {"Quantity": "VEH Historical Superposition Contribution", "Value": format_value(to_display(raw["aquifer_historical_contribution_m3"], "reservoir_volume", units)), "Unit": display_unit("reservoir_volume", units)},
         {"Quantity": "Absolute Relative Balance Residual", "Value": format_value(state.balance.relative_residual), "Unit": "dimensionless"},
         {"Quantity": "Balance QC", "Value": balance_qc_status(state.balance.relative_residual, converged=state.solver.converged), "Unit": ""},
         {"Quantity": "Solver Convergence", "Value": "Converged" if state.solver.converged else "Not converged", "Unit": ""},
         {"Quantity": "Solver Iterations", "Value": str(state.solver.iterations), "Unit": "count"},
     ])
+    if raw["aquifer_model"] == "modified_van_everdingen_hurst" and state.aquifer_step is not None:
+        variables = dict(state.aquifer_state.model_variables)
+        rows.append({"Quantity": "Pressure treatment", "Value": "Linear between accepted endpoints", "Unit": ""})
+        for key, label in (("start_pressure", "Reservoir pressure at start"),
+                           ("end_pressure", "Reservoir pressure at end"),
+                           ("average_pressure", "Timestep-average reservoir pressure")):
+            rows.append({"Quantity": label, "Value": format_value(to_display(variables["diag_"+key], "pressure", units)),
+                         "Unit": display_unit("pressure", units)})
+        rows.append({"Quantity": "Reservoir pressure slope", "Value": format_value(to_display(variables["diag_pressure_slope"]*86400, "pressure", units)),
+                     "Unit": display_unit("pressure", units)+"/day"})
+        rows.append({"Quantity": "Integrated current dimensionless response", "Value": format_value(variables["diag_integrated_current_response"]), "Unit": "dimensionless"})
     return pd.DataFrame(rows)
 
 

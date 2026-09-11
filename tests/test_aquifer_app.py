@@ -7,12 +7,16 @@ from material_balance_studio.units.display import to_display
 ROOT = Path(__file__).resolve().parents[1]
 
 
-@pytest.mark.parametrize("model,fields,charts", [
-    ("None",set(),2), ("Pot",{"aq_capacity"},3),
-    ("Schilthuis",{"aq_productivity_index"},4),
-    ("Fetkovich",{"aq_initial_water_volume","aq_total_compressibility","aq_productivity_index"},5),
+@pytest.mark.parametrize("model,key,fields,charts", [
+    ("None","none",set(),2), ("Pot","pot",{"aq_capacity"},3),
+    ("Schilthuis","schilthuis",{"aq_productivity_index"},4),
+    ("Fetkovich","fetkovich",{"aq_initial_water_volume","aq_total_compressibility","aq_productivity_index"},5),
+    ("Carter-Tracy","carter_tracy",{"aq_inner_radius","aq_radius_ratio","aq_thickness","aq_porosity","aq_permeability",
+                     "aq_water_viscosity","aq_total_compressibility","aq_encroachment_angle"},6),
+    ("Van Everdingen-Hurst","van_everdingen_hurst",{"aq_inner_radius","aq_radius_ratio","aq_thickness","aq_porosity","aq_permeability",
+                             "aq_water_viscosity","aq_total_compressibility","aq_encroachment_angle"},6),
 ])
-def test_aquifer_ui_model_inputs_run_and_charts(model,fields,charts):
+def test_aquifer_ui_model_inputs_run_and_charts(model,key,fields,charts):
     app = AppTest.from_file(str(ROOT/"app.py"),default_timeout=30).run()
     app.radio(key="aquifer_type").set_value(model).run()
     assert not app.exception
@@ -20,7 +24,7 @@ def test_aquifer_ui_model_inputs_run_and_charts(model,fields,charts):
     app.button[0].click().run()
     assert not app.exception and not app.error
     result = app.session_state["simulation"][0]
-    assert result.converged and result.initial_state.aquifer_state.model_key == model.lower()
+    assert result.converged and result.initial_state.aquifer_state.model_key == key
     assert len(app.get("plotly_chart")) == charts
     if model != "None":
         assert result.states[-1].balance.aquifer_support > 0

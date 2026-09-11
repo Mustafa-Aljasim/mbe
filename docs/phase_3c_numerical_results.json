@@ -1,0 +1,208 @@
+{
+  "regression": {
+    "none": {
+      "before_sha256": "f2341185155b3252f226031839e93aa7eb60ac838cbacbbd4a878469287cb1d2",
+      "after_sha256": "f2341185155b3252f226031839e93aa7eb60ac838cbacbbd4a878469287cb1d2",
+      "identical": true
+    },
+    "pot_weak": {
+      "before_sha256": "42aa07b7b2efeb5b77c0c624b585f784266cd2275b90ca446ebcfd4bd306fd60",
+      "after_sha256": "42aa07b7b2efeb5b77c0c624b585f784266cd2275b90ca446ebcfd4bd306fd60",
+      "identical": true
+    },
+    "pot_strong": {
+      "before_sha256": "8c4e0f3d83e05ab7fb3573a8a1561ab7499f0f2d8292b218950a5b5f37c81232",
+      "after_sha256": "8c4e0f3d83e05ab7fb3573a8a1561ab7499f0f2d8292b218950a5b5f37c81232",
+      "identical": true
+    },
+    "schilthuis_weak": {
+      "before_sha256": "5d896e28ee1c17abcc7c70347f184672e889c5a2342c87202c278de6d7522ada",
+      "after_sha256": "5d896e28ee1c17abcc7c70347f184672e889c5a2342c87202c278de6d7522ada",
+      "identical": true
+    },
+    "schilthuis_strong": {
+      "before_sha256": "dfc75a664c7e23c5e0ff90fcc54d9df24930260dea65cd22a557c9e16ff26331",
+      "after_sha256": "dfc75a664c7e23c5e0ff90fcc54d9df24930260dea65cd22a557c9e16ff26331",
+      "identical": true
+    },
+    "fetkovich_weak": {
+      "before_sha256": "319b0ccc735c6dcfcdc3a8d514c58bd07c7d37f603f82c76f8a09294ca6e391d",
+      "after_sha256": "319b0ccc735c6dcfcdc3a8d514c58bd07c7d37f603f82c76f8a09294ca6e391d",
+      "identical": true
+    },
+    "fetkovich_strong": {
+      "before_sha256": "7a958f1161b9001065f6b0e8444a6ad1862ca07efc0e610b2a221485a888e599",
+      "after_sha256": "7a958f1161b9001065f6b0e8444a6ad1862ca07efc0e610b2a221485a888e599",
+      "identical": true
+    },
+    "carter_tracy": {
+      "before_sha256": "01e4035fbd2540915b866b0ba3857c8c404c7fa50be47546951c788fa7aec78b",
+      "after_sha256": "01e4035fbd2540915b866b0ba3857c8c404c7fa50be47546951c788fa7aec78b",
+      "identical": true
+    },
+    "veh_infinite": {
+      "before_sha256": "a64a2901274ca77949d3d01821d352f6de42cdc84ea1c57d3500ddd34bda388f",
+      "after_sha256": "a64a2901274ca77949d3d01821d352f6de42cdc84ea1c57d3500ddd34bda388f",
+      "identical": true
+    }
+  },
+  "benchmark": [
+    {
+      "tD": 0.001,
+      "expected_cumulative": 298.9328648745563,
+      "actual_cumulative": 298.9328648745563,
+      "expected_increment": 298.9328648745563,
+      "actual_increment": 298.9328648745563,
+      "relative_error": 0.0
+    },
+    {
+      "tD": 0.003,
+      "expected_cumulative": 1553.3007300445597,
+      "actual_cumulative": 1553.30073004456,
+      "expected_increment": 1254.3678651700034,
+      "actual_increment": 1254.3678651700036,
+      "relative_error": 1.4638097507152357e-16
+    },
+    {
+      "tD": 0.006,
+      "expected_cumulative": 3357.8640977163855,
+      "actual_cumulative": 3357.864097716386,
+      "expected_increment": 1804.5633676718257,
+      "actual_increment": 1804.563367671826,
+      "relative_error": 1.3542756277591116e-16
+    }
+  ],
+  "refinement": {
+    "1": {
+      "van_everdingen_hurst": 19716.635493929545,
+      "modified_van_everdingen_hurst": 12522.52104974676,
+      "relative_difference": 0.5744940987205025
+    },
+    "100": {
+      "van_everdingen_hurst": 12618.232523658779,
+      "modified_van_everdingen_hurst": 12522.521049746765,
+      "relative_difference": 0.00764314737677753
+    }
+  },
+  "maximum_relative_residual": 1.636292862885668e-14,
+  "comparison": {
+    "None": {
+      "metrics": {
+        "count": 3,
+        "rmse": 3277862.906921713,
+        "mae": 3024619.277157221,
+        "bias": -3024619.277157221,
+        "maximum": 4578947.368421059
+      },
+      "qc": [
+        "CAUTION",
+        [
+          "Pressure RMSE exceeds 5% of initial pressure; review supplied parameters and model assumptions."
+        ]
+      ],
+      "final_pressure": 22421052.63157894,
+      "final_we": 0.0
+    },
+    "Pot": {
+      "metrics": {
+        "count": 3,
+        "rmse": 493915.28456296364,
+        "mae": 454847.1976775589,
+        "bias": -454847.1976775589,
+        "maximum": 692307.692307692
+      },
+      "qc": [
+        "PASS",
+        []
+      ],
+      "final_pressure": 26307692.307692308,
+      "final_we": 18461.53846153846
+    },
+    "Schilthuis": {
+      "metrics": {
+        "count": 3,
+        "rmse": 956950.5462112437,
+        "mae": 943703.2071809085,
+        "bias": -943703.2071809085,
+        "maximum": 1137317.0289502218
+      },
+      "qc": [
+        "PASS",
+        []
+      ],
+      "final_pressure": 26251354.26599531,
+      "final_we": 18193.93276347767
+    },
+    "Fetkovich": {
+      "metrics": {
+        "count": 3,
+        "rmse": 1545578.2643108943,
+        "mae": 1505804.8855729972,
+        "bias": -1505804.8855729972,
+        "maximum": 1887883.686379131
+      },
+      "qc": [
+        "CAUTION",
+        [
+          "Pressure RMSE exceeds 5% of initial pressure; review supplied parameters and model assumptions."
+        ]
+      ],
+      "final_pressure": 25112116.31362087,
+      "final_we": 12782.552489699065
+    },
+    "Carter-Tracy": {
+      "metrics": {
+        "count": 3,
+        "rmse": 1909645.8257810448,
+        "mae": 1747436.7217839633,
+        "bias": 1747436.7217839633,
+        "maximum": 2697951.353550695
+      },
+      "qc": [
+        "CAUTION",
+        [
+          "Infinite-acting radial assumption requires geological justification; radius ratio does not impose a boundary.",
+          "Pressure RMSE exceeds 5% of initial pressure; review supplied parameters and model assumptions."
+        ]
+      ],
+      "final_pressure": 29697951.353550695,
+      "final_we": 34565.26892936573
+    },
+    "Van Everdingen-Hurst": {
+      "metrics": {
+        "count": 3,
+        "rmse": 1936756.8204385766,
+        "mae": 1781162.238197025,
+        "bias": 1781162.238197025,
+        "maximum": 2718242.4673877954
+      },
+      "qc": [
+        "CAUTION",
+        [
+          "Infinite-acting radial assumption requires geological justification; radius ratio does not impose a boundary.",
+          "Pressure RMSE exceeds 5% of initial pressure; review supplied parameters and model assumptions."
+        ]
+      ],
+      "final_pressure": 29718242.467387795,
+      "final_we": 34661.65172009214
+    },
+    "Modified Van Everdingen-Hurst": {
+      "metrics": {
+        "count": 3,
+        "rmse": 1904837.7570358396,
+        "mae": 1736579.4204498555,
+        "bias": 1736579.4204498555,
+        "maximum": 2694377.574379634
+      },
+      "qc": [
+        "CAUTION",
+        [
+          "Infinite-acting radial assumption requires geological justification; radius ratio does not impose a boundary.",
+          "Pressure RMSE exceeds 5% of initial pressure; review supplied parameters and model assumptions."
+        ]
+      ],
+      "final_pressure": 29694377.574379634,
+      "final_we": 34548.29347830332
+    }
+  }
+}

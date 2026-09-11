@@ -21,6 +21,7 @@ from material_balance_studio.presentation.tables import (
 from material_balance_studio.pvt.table_model import TablePVTModel
 from material_balance_studio.presentation.pvt_workflow import correlation_workflow, refresh_pvt_units
 from material_balance_studio.presentation.aquifer import aquifer_inputs, refresh_aquifer_units, aquifer_figures, aquifer_setup_frame
+from material_balance_studio.presentation.aquifer_comparison import comparison_workflow, refresh_comparison_units
 from material_balance_studio.solver.simulation import simulate
 from material_balance_studio.units.display import column_label, display_unit, format_value, from_display, to_display
 from material_balance_studio.units.conversions import UnitSystem
@@ -47,6 +48,7 @@ def change_display_units() -> None:
         st.session_state[key] = to_display(st.session_state["setup_si"][key], quantity, units)
     refresh_pvt_units()
     refresh_aquifer_units()
+    refresh_comparison_units()
 
 
 def save_setup_value(key: str) -> None:
@@ -193,14 +195,14 @@ def show_results(units: UnitSystem) -> None:
 def main() -> None:
     st.set_page_config(page_title="Material Balance Studio", layout="wide")
     st.title("Material Balance Studio")
-    st.caption("Phase 3A · Single black-oil tank · Stateful aquifer support")
+    st.caption("Phase 3C · Single black-oil tank · Aquifer comparison and engineering QC")
     initialize_setup()
     units = UnitSystem(st.selectbox("Project / display unit system", ["SI", "FIELD"],
                                    key="display_units", on_change=change_display_units))
     st.caption(f"Setup, previews, results, charts and engineering downloads use {units.value} "
                f"({display_unit('pressure', units)} for pressure). Uploaded-file units are set separately.")
-    setup, pvt_tab, history_tab, run_tab, results_tab = st.tabs(
-        ["Reservoir Setup", "PVT Data", "History", "Run Simulation", "Results / Equation Inspector"])
+    setup, pvt_tab, history_tab, run_tab, results_tab, comparison_tab = st.tabs(
+        ["Reservoir Setup", "PVT Data", "History", "Run Simulation", "Results / Equation Inspector", "Aquifer Comparison"])
     with setup:
         initial_date = st.date_input("Initial date", date(2020, 1, 1))
         setup_input("Initial pressure", "setup_pressure", units)
@@ -251,6 +253,13 @@ def main() -> None:
                     st.error(str(exc))
     with results_tab:
         show_results(units)
+    with comparison_tab:
+        def comparison_tank():
+            values = st.session_state["setup_si"]
+            return tank_from_inputs(initial_date=initial_date, initial_pressure=values["setup_pressure"],
+                                    oil_in_place=values["setup_oil"], swc=swc, cf=values["setup_cf"],
+                                    cw=values["setup_cw"], m=m, pvt_model=pvt_model)
+        comparison_workflow(comparison_tank, history, units, pvt_model is not None and history is not None)
 
 
 if __name__ == "__main__":

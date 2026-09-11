@@ -1,11 +1,13 @@
-"""Reproduce Phase 3A benchmark evidence; canonical pressure Pa, volume m³, time s."""
+"""Reproduce Phase 3A/3B aquifer benchmark evidence; canonical pressure Pa, volume m3, time s."""
 from dataclasses import asdict, replace
 from datetime import date
 from pathlib import Path
 from math import log
 import hashlib
 import json
-from material_balance_studio.aquifer import NoAquifer, PotAquifer, SchilthuisAquifer, FetkovichAquifer
+from material_balance_studio.aquifer import (NoAquifer, PotAquifer, SchilthuisAquifer, FetkovichAquifer,
+                                             CarterTracyAquifer, VanEverdingenHurstAquifer)
+from material_balance_studio.aquifer.veh_response import veh_infinite_water_influx_dimensionless
 from material_balance_studio.domain.models import ReservoirTank, PVTProperties, PVTTable, HistoryRecord, CumulativeVolumes
 from material_balance_studio.pvt.table_model import TablePVTModel
 from material_balance_studio.solver.simulation import simulate
@@ -33,13 +35,35 @@ def evidence():
                          "pressure_error":abs(result.updated_state.aquifer_pressure-pa) if pa is not None else 0})
             state=result.updated_state
         output["benchmarks"][name]=rows
+    k_one_td_day=.2*.001*1e-9*1000**2/DAY
+    veh=VanEverdingenHurstAquifer(1000,10,10,.2,k_one_td_day,.001,1e-9)
+    state=veh.initial_state(30e6)
+    first=veh.compute_step(state,30e6,28e6,DAY)
+    second=veh.compute_step(first.updated_state,28e6,27e6,DAY)
+    output["benchmarks"]["veh_infinite"]={
+        "response_nodes": {str(t): veh_infinite_water_influx_dimensionless(t) for t in (0,.01,.1,1,10,100,1000)},
+        "expected_first_cumulative": 39433.27098785909,
+        "actual_first_cumulative": first.cumulative_influx,
+        "expected_second_cumulative": 81216.45328060335,
+        "actual_second_cumulative": second.cumulative_influx,
+        "variables": dict(second.updated_state.model_variables),
+    }
+    ct=CarterTracyAquifer(1000,10,10,.2,k_one_td_day,.001,1e-9)
+    ct_first=ct.compute_step(ct.initial_state(30e6),30e6,28e6,DAY)
+    output["benchmarks"]["carter_tracy"]={
+        "expected_first_cumulative": 31331.833883943957,
+        "actual_first_cumulative": ct_first.cumulative_influx,
+        "variables": dict(ct_first.updated_state.model_variables),
+    }
     table=TablePVTModel(PVTTable(tuple(PVTProperties(p,1.2+4e-9*(30e6-p),80,bg,1)
         for p,bg in ((10e6,.012),(20e6,.006),(30e6,.004),(40e6,.003)))))
     tank=ReservoirTank(date(2020,1,1),30e6,1e6,.2,0,0,0,table)
     records=[HistoryRecord(date(2020,m,1),CumulativeVolumes(np=n,gp=80*n)) for m,n in ((2,10000),(3,20000),(4,30000))]
     models={"none":NoAquifer(),"pot_weak":PotAquifer(.001),"pot_strong":PotAquifer(.01),
             "schilthuis_weak":SchilthuisAquifer(1e-10),"schilthuis_strong":SchilthuisAquifer(1e-9),
-            "fetkovich_weak":FetkovichAquifer(1e6,1e-9,1e-10),"fetkovich_strong":FetkovichAquifer(1e7,1e-9,1e-9)}
+            "fetkovich_weak":FetkovichAquifer(1e6,1e-9,1e-10),"fetkovich_strong":FetkovichAquifer(1e7,1e-9,1e-9),
+            "carter_tracy":CarterTracyAquifer(1800,10,20,.2,1e-13,.001,1e-9,360),
+            "veh_infinite":VanEverdingenHurstAquifer(1800,10,20,.2,1e-13,.001,1e-9,360)}
     output["support_comparison"]={}
     for name,model in models.items():
         result=simulate(replace(tank,aquifer=model),records)
@@ -54,7 +78,7 @@ def evidence():
 
 
 if __name__=="__main__":
-    path=Path(__file__).resolve().parents[1]/"docs/phase_3a_numerical_results.json"
+    path=Path(__file__).resolve().parents[1]/"docs/phase_3b_numerical_results.json"
     result=evidence()
     path.write_text(json.dumps(result,indent=2,allow_nan=False)+"\n",encoding="utf-8")
     print(path)

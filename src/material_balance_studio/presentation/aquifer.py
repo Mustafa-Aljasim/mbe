@@ -16,7 +16,24 @@ FIELDS = {
                              "Water volume at initial aquifer conditions, including only the connected aquifer fraction. This is a reservoir volume."),
     "total_compressibility": ("Aquifer total compressibility ct", "compressibility", 1e-9,
                              "Sum of aquifer water and pore-volume compressibilities; Caq = Wi × ct."),
+    "inner_radius": ("Reservoir/aquifer inner radius", "length", 1800.,
+                     "Reference radius at the reservoir-aquifer contact used in tD and B."),
+    "radius_ratio": ("Aquifer outer/inner radius ratio", "dimensionless", 10.,
+                     "Outer aquifer radius divided by the reservoir/aquifer contact radius. Phase 3B uses infinite-acting response functions but validates geometry."),
+    "thickness": ("Aquifer thickness", "length", 20.,
+                  "Net aquifer thickness communicating with the reservoir."),
+    "porosity": ("Aquifer porosity", "dimensionless", .2,
+                 "Connected aquifer pore-volume fraction."),
+    "permeability": ("Aquifer permeability", "permeability", 1e-13,
+                     "Aquifer permeability used in the radial dimensionless time."),
+    "water_viscosity": ("Aquifer water viscosity", "viscosity", .001,
+                        "Water viscosity in the aquifer."),
+    "encroachment_angle": ("Encroachment angle", "angle", 360.,
+                           "Full-circle aquifer is 360 degrees; partial aquifers scale the radial aquifer constant."),
 }
+
+TRANSIENT_NAMES = ("inner_radius", "radius_ratio", "thickness", "porosity", "permeability",
+                   "water_viscosity", "total_compressibility", "encroachment_angle")
 
 
 def refresh_aquifer_units():
@@ -35,10 +52,18 @@ def aquifer_inputs(units, initial_pressure):
     selected = st.radio("Aquifer type", list(MODELS), horizontal=True, key="aquifer_type")
     st.session_state.setdefault("aquifer_draft", {k:v[2] for k,v in FIELDS.items()})
     names = {"None": (), "Pot": ("capacity",), "Schilthuis": ("productivity_index",),
-             "Fetkovich": ("initial_water_volume", "total_compressibility", "productivity_index")}[selected]
+             "Fetkovich": ("initial_water_volume", "total_compressibility", "productivity_index"),
+             "Carter-Tracy": TRANSIENT_NAMES, "Van Everdingen-Hurst": TRANSIENT_NAMES,
+             "Modified Van Everdingen-Hurst": TRANSIENT_NAMES}[selected]
     if names:
         st.caption(f"Initial aquifer pressure equals initial reservoir pressure: {format_value(to_display(initial_pressure, 'pressure', units))} {display_unit('pressure', units)}. Each run starts a fresh aquifer state.")
         st.caption("Signed flow is retained: pressure recovery can return water to the aquifer. Negative influx and decreasing cumulative influx are flagged for review.")
+        if selected in ("Carter-Tracy", "Van Everdingen-Hurst", "Modified Van Everdingen-Hurst"):
+            st.caption("Infinite-acting radial response. Radius ratio is geometry metadata only; finite boundaries are not modelled.")
+        if selected == "Van Everdingen-Hurst":
+            st.caption("Original Van Everdingen-Hurst — infinite-acting radial; pressure-step superposition.")
+        if selected == "Modified Van Everdingen-Hurst":
+            st.caption("Modified Van Everdingen-Hurst — linear-pressure-history formulation, infinite-acting radial; PETEX Appendix C C2.9.")
     for name in names:
         label, quantity, _, help_text = FIELDS[name]
         st.session_state.setdefault("aq_"+name, to_display(st.session_state["aquifer_draft"][name], quantity, units))
@@ -65,10 +90,13 @@ def aquifer_figures(result, units):
         return []
     states = (result.initial_state, *result.states)
     series = [("Cumulative Aquifer Influx We", "reservoir_volume", [s.balance.aquifer_support for s in states])]
-    if initial.model_key in ("schilthuis", "fetkovich"):
+    if initial.model_key in ("schilthuis", "fetkovich", "carter_tracy", "van_everdingen_hurst", "modified_van_everdingen_hurst"):
         series.append(("Average Aquifer Influx Rate", "aquifer_rate", [s.aquifer_step.average_influx_rate if s.aquifer_step else None for s in states]))
-    if initial.model_key == "fetkovich":
+    if initial.model_key in ("fetkovich", "carter_tracy", "van_everdingen_hurst"):
         series.append(("Aquifer Pressure", "pressure", [s.aquifer_state.aquifer_pressure for s in states]))
+    if initial.model_key in ("carter_tracy", "van_everdingen_hurst", "modified_van_everdingen_hurst"):
+        series.append(("Aquifer Dimensionless Time tD", "dimensionless",
+                       [dict(s.aquifer_state.model_variables).get("diag_tD") if s.aquifer_step else None for s in states]))
     figures = []
     for label, quantity, values in series:
         figure = go.Figure(go.Scatter(x=[s.date.isoformat() for s in states],

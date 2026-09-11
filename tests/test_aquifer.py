@@ -7,8 +7,10 @@ import hashlib
 import json
 import pytest
 
-from material_balance_studio.aquifer import NoAquifer, PotAquifer, SchilthuisAquifer, FetkovichAquifer
+from material_balance_studio.aquifer import (NoAquifer, PotAquifer, SchilthuisAquifer, FetkovichAquifer,
+                                             CarterTracyAquifer, VanEverdingenHurstAquifer)
 from material_balance_studio.aquifer.base import AquiferContext
+from material_balance_studio.aquifer.veh_response import veh_infinite_water_influx_dimensionless
 from material_balance_studio.aquifer.registry import MODELS
 from material_balance_studio.domain.models import CumulativeVolumes, HistoryRecord, ReservoirTank, SolverSettings
 from material_balance_studio.io.history import read_table, pvt_from_frame, history_from_frame
@@ -23,7 +25,9 @@ from material_balance_studio.presentation.tables import equation_inspector_frame
 ROOT = Path(__file__).resolve().parents[1]
 DAY = 86400.
 MODELS_UNDER_TEST = [NoAquifer(), PotAquifer(.0025), SchilthuisAquifer(100/(DAY*1e6)),
-                     FetkovichAquifer(1e6, 1e-9, .001*log(2)/DAY)]
+                     FetkovichAquifer(1e6, 1e-9, .001*log(2)/DAY),
+                     CarterTracyAquifer(1000,10,10,.2,.2*.001*1e-9*1000**2/DAY,.001,1e-9),
+                     VanEverdingenHurstAquifer(1000,10,10,.2,.2*.001*1e-9*1000**2/DAY,.001,1e-9)]
 
 
 def history():
@@ -191,6 +195,20 @@ def test_invalid_aquifer_parameters_rejected(factory,bad):
         factory(bad)
 
 
+@pytest.mark.parametrize("kwargs", [
+    {"inner_radius":1000,"radius_ratio":1,"thickness":10,"porosity":.2,"permeability":1e-13,"water_viscosity":.001,"total_compressibility":1e-9},
+    {"inner_radius":1000,"radius_ratio":10,"thickness":10,"porosity":1,"permeability":1e-13,"water_viscosity":.001,"total_compressibility":1e-9},
+    {"inner_radius":1000,"radius_ratio":10,"thickness":10,"porosity":.2,"permeability":0,"water_viscosity":.001,"total_compressibility":1e-9},
+    {"inner_radius":1000,"radius_ratio":10,"thickness":10,"porosity":.2,"permeability":1e-13,"water_viscosity":0,"total_compressibility":1e-9},
+    {"inner_radius":1000,"radius_ratio":10,"thickness":10,"porosity":.2,"permeability":1e-13,"water_viscosity":.001,"total_compressibility":0},
+    {"inner_radius":1000,"radius_ratio":10,"thickness":10,"porosity":.2,"permeability":1e-13,"water_viscosity":.001,"total_compressibility":1e-9,"encroachment_angle":361},
+])
+@pytest.mark.parametrize("factory", [CarterTracyAquifer, VanEverdingenHurstAquifer])
+def test_invalid_transient_aquifer_geometry_rejected(factory,kwargs):
+    with pytest.raises(ValueError):
+        factory(**kwargs)
+
+
 @pytest.mark.parametrize("dt", [0,-1,float("nan"),float("inf")])
 @pytest.mark.parametrize("model", MODELS_UNDER_TEST)
 def test_nonpositive_or_nonfinite_time_rejected(model,dt):
@@ -258,6 +276,35 @@ def test_field_si_aquifer_inputs_produce_equivalent_simulations(tank,label):
     assert [s.balance.aquifer_support for s in a.states] == pytest.approx([s.balance.aquifer_support for s in b.states],abs=1e-7)
 
 
+@pytest.mark.parametrize("label", ["Carter-Tracy","Van Everdingen-Hurst"])
+def test_field_si_transient_aquifer_inputs_produce_equivalent_simulations(tank,label):
+    kwargs = {"inner_radius":1800,"radius_ratio":10,"thickness":20,"porosity":.2,
+              "permeability":1e-13,"water_viscosity":.001,"total_compressibility":1e-9,
+              "encroachment_angle":180}
+    quantities = {"inner_radius":"length","radius_ratio":"dimensionless","thickness":"length",
+                  "porosity":"dimensionless","permeability":"permeability","water_viscosity":"viscosity",
+                  "total_compressibility":"compressibility","encroachment_angle":"angle"}
+    field_kwargs = {k:from_display(to_display(v,quantities[k],"FIELD"),quantities[k],"FIELD") for k,v in kwargs.items()}
+    a,b = [simulate(replace(tank,aquifer=MODELS[label](**kw)),history()) for kw in (kwargs,field_kwargs)]
+    assert a.converged and b.converged
+    assert [s.pressure for s in a.states] == pytest.approx([s.pressure for s in b.states],abs=1e-5)
+    assert [s.balance.aquifer_support for s in a.states] == pytest.approx([s.balance.aquifer_support for s in b.states],abs=1e-7)
+
+
+@pytest.mark.parametrize("factory", [CarterTracyAquifer, VanEverdingenHurstAquifer])
+def test_transient_physical_sensitivities(factory):
+    base = {"inner_radius":1000,"radius_ratio":10,"thickness":10,"porosity":.2,
+            "permeability":1e-13,"water_viscosity":.001,"total_compressibility":1e-9,
+            "encroachment_angle":360}
+    def influx(**updates):
+        model = factory(**{**base,**updates})
+        return model.compute_step(model.initial_state(30e6),30e6,28e6,30*DAY).cumulative_influx
+    assert influx(permeability=2e-13) > influx(permeability=5e-14)
+    assert influx(encroachment_angle=180) == pytest.approx(influx()*0.5)
+    assert influx(water_viscosity=.002) < influx(water_viscosity=.001)
+    assert influx(total_compressibility=2e-9) > 0
+
+
 def test_active_aquifer_direct_solve_requires_context(tank):
     result = solve_pressure(replace(tank,aquifer=PotAquifer(.001)),history()[0].cumulative,30e6)
     assert not result.diagnostics.converged and "prior state" in result.diagnostics.message
@@ -269,8 +316,41 @@ def test_fetkovich_tiny_timestep_uses_stable_exponential():
     assert result.incremental_influx == pytest.approx(5e-24,rel=1e-12,abs=0)
 
 
-def test_only_phase_3a_models_registered():
-    assert list(MODELS) == ["None","Pot","Schilthuis","Fetkovich"]
+def test_phase_3b_models_retained_with_phase_3c_registration():
+    # Phase 3C explicitly supersedes the Phase 3B exclusion of Modified VEH.
+    assert list(MODELS) == ["None","Pot","Schilthuis","Fetkovich","Carter-Tracy","Van Everdingen-Hurst",
+                            "Modified Van Everdingen-Hurst"]
+
+
+def test_veh_reference_response_nodes_and_small_time():
+    for tD, expected in ((0,0),(.01,.112),(.1,.404),(1,1.569),(10,7.537),(100,43.025),(1000,309.37)):
+        assert veh_infinite_water_influx_dimensionless(tD) == pytest.approx(expected, rel=2e-5, abs=1e-12)
+    assert veh_infinite_water_influx_dimensionless(1e-6) == pytest.approx(2*(1e-6/3.141592653589793)**.5)
+
+
+def test_veh_pressure_step_superposition_independent_benchmark():
+    k = .2*.001*1e-9*1000**2/DAY  # tD advances by one per day.
+    model = VanEverdingenHurstAquifer(1000,10,10,.2,k,.001,1e-9)
+    state = model.initial_state(30e6)
+    first = model.compute_step(state,30e6,28e6,DAY)
+    assert first.cumulative_influx == pytest.approx(39433.27098785909)
+    second = model.compute_step(first.updated_state,28e6,27e6,DAY)
+    assert second.cumulative_influx == pytest.approx(81216.45328060335)
+    variables = dict(second.updated_state.model_variables)
+    assert variables["diag_active_pressure_steps"] == 2
+    assert variables["diag_current_step_contribution"] == pytest.approx(19716.635493929546)
+    assert variables["diag_historical_contribution"] == pytest.approx(61499.8177866738)
+
+
+def test_carter_tracy_first_step_independent_recurrence_benchmark():
+    k = .2*.001*1e-9*1000**2/DAY
+    model = CarterTracyAquifer(1000,10,10,.2,k,.001,1e-9)
+    result = model.compute_step(model.initial_state(30e6),30e6,28e6,DAY)
+    assert result.cumulative_influx == pytest.approx(31331.833883943957)
+    diagnostics = dict(result.updated_state.model_variables)
+    assert diagnostics["diag_tD"] == pytest.approx(1)
+    assert diagnostics["diag_dimensionless_pressure"] == pytest.approx(.8021471491841932)
+    assert diagnostics["diag_dimensionless_pressure_derivative"] > 0
 
 
 @pytest.mark.parametrize("model", MODELS_UNDER_TEST[1:])

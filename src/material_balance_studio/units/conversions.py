@@ -12,6 +12,8 @@ from material_balance_studio.domain.validation import EngineeringValidationError
 PA_PER_PSI = 6894.757293168
 M3_PER_STB = 0.158987294928
 M3_PER_SCF = 0.028316846592
+M_PER_FT = 0.3048
+M2_PER_MD = 9.869233e-16
 
 
 class UnitSystem(StrEnum):
@@ -31,7 +33,10 @@ _FIELD_TO_SI = {
     "bginj": M3_PER_STB / M3_PER_SCF,
     "rs": M3_PER_SCF / M3_PER_STB,
     "viscosity": 0.001,
+    "length": M_PER_FT,
+    "permeability": M2_PER_MD,
     "dimensionless": 1.0,
+    "angle": 1.0,
 }
 
 
