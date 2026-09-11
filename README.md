@@ -1,4 +1,4 @@
-# Material Balance Studio — Phase 3C
+# Material Balance Studio — Phase 4B
 
 An auditable calculation foundation for a single equilibrated black-oil tank with
 tabulated or correlation PVT, cumulative production/injection, and optional stateful aquifer support. The Streamlit
@@ -49,6 +49,22 @@ pressure-error metrics, engineering QC, support fractions and optional one-param
 sensitivity previews. No aquifer/reservoir fitting is performed. See the
 [formulation and methodology](docs/aquifer_phase_3c.md) and
 [Phase 3C acceptance report](docs/phase_3c_acceptance.md).
+
+Phase 4A adds the **Reservoir Diagnosis** tab: row-preserving pressure/history QC,
+optional survey metadata, component voidage, instantaneous/cumulative VRR,
+observed-pressure Havlena–Odeh and oil Campbell plots, five additive drive/support
+indices, and pressure-match diagnostics. Run a simulation, then select **Build
+reservoir diagnosis**. No reservoir optimization is performed. See the
+[diagnostic equations and limitations](docs/diagnostics_phase_4a.md) and
+[Phase 4A acceptance report](docs/phase_4a_acceptance.md).
+
+Phase 4B adds **History Matching** with explicit bounded parameter selection,
+unweighted or uncertainty-weighted pressure residuals, observation inclusion,
+independent match scenarios, before/after diagnostics and an explicit apply action.
+Run the base simulation, open History Matching and enable **Configure history
+match**. The forward simulator remains unchanged. See the
+[matching method and parameter registry](docs/history_matching_phase_4b.md) and
+[Phase 4B acceptance report](docs/phase_4b_acceptance.md).
 
 ## Run (Python 3.12)
 
@@ -359,6 +375,6 @@ the original core-file hash comparison. The synthetic Bo matching example
 recovers A=.04, B=1.02 and reduces RMSE from .0644754 to numerical zero.
 
 **Intentionally deferred:** finite VEH boundary behavior,
-aquifer parameter matching, reservoir-parameter history matching,
+global optimization, automated identifiability and parameter uncertainty,
 multi-tank systems, transmissibility, forecasting, DCA, uncertainty analysis
 and PDF reporting.

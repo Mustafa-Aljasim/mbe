@@ -22,6 +22,9 @@ from material_balance_studio.pvt.table_model import TablePVTModel
 from material_balance_studio.presentation.pvt_workflow import correlation_workflow, refresh_pvt_units
 from material_balance_studio.presentation.aquifer import aquifer_inputs, refresh_aquifer_units, aquifer_figures, aquifer_setup_frame
 from material_balance_studio.presentation.aquifer_comparison import comparison_workflow, refresh_comparison_units
+from material_balance_studio.presentation.diagnosis import diagnosis_workflow, diagnostic_inspector
+from material_balance_studio.presentation.history_matching import history_matching_workflow, refresh_matching_units
+from material_balance_studio.diagnostics.pressure_qc import diagnostic_history_from_frame, history_qc
 from material_balance_studio.solver.simulation import simulate
 from material_balance_studio.units.display import column_label, display_unit, format_value, from_display, to_display
 from material_balance_studio.units.conversions import UnitSystem
@@ -49,6 +52,7 @@ def change_display_units() -> None:
     refresh_pvt_units()
     refresh_aquifer_units()
     refresh_comparison_units()
+    refresh_matching_units()
 
 
 def save_setup_value(key: str) -> None:
@@ -68,7 +72,7 @@ def engineering_table(frame: pd.DataFrame) -> None:
     st.dataframe(frame, hide_index=True, width="stretch", column_config=columns)
 
 
-def input_table(kind: str, units: UnitSystem) -> tuple[PVTTable | tuple[HistoryRecord, ...] | None, str]:
+def input_table(kind: str, units: UnitSystem, initial_date=None) -> tuple[PVTTable | tuple[HistoryRecord, ...] | None, str]:
     """Parse original file units once, then present canonical data in project units."""
     is_pvt = kind == "PVT"
     stem = kind.lower()
@@ -84,6 +88,9 @@ def input_table(kind: str, units: UnitSystem) -> tuple[PVTTable | tuple[HistoryR
         st.caption(f"Uploaded file: {upload.name} · source units: {effective_units} · displayed in: {units.value}.")
         upload.seek(0)
         source = upload
+    if not is_pvt:
+        st.session_state.pop("history_qc", None)
+        st.session_state.pop("pressure_metadata", None)
     with st.expander(f"{kind} import format / original SI template"):
         st.caption("The uploaded-file unit system describes file contents. It does not control project display units.")
         if is_pvt:
@@ -93,6 +100,7 @@ def input_table(kind: str, units: UnitSystem) -> tuple[PVTTable | tuple[HistoryR
                        "Z is dimensionless. Pressure rows must increase. No extrapolation.")
         else:
             st.write("Headers: date, np, gp, wp; optional winj, ginj, observed_pressure. Dates: YYYY-MM-DD, sorted and unique.")
+            st.write("Optional pressure metadata: pressure_source, pressure_sigma, pressure_quality, pressure_note. Sigma uses the uploaded pressure unit (Pa or psi). Sources: Average reservoir pressure, Static well pressure, PBU-derived pressure, RFT/MDT pressure, Estimated pressure, Other.")
             st.caption("SI files: surface m³ and Pa. FIELD: oil in STB, water in bbl, gas in scf, pressure in psia. "
                        "Cumulative volumes start at initial date. Blank observed pressure is allowed.")
         st.caption("Engineering downloads have readable unit-bearing headers. Use the original template for imports; "
@@ -101,14 +109,25 @@ def input_table(kind: str, units: UnitSystem) -> tuple[PVTTable | tuple[HistoryR
                            (EXAMPLES / f"{stem}.csv").read_bytes(), f"{stem}_import_SI_Pa.csv", "text/csv")
     try:
         raw = read_table(source, upload.name if upload is not None else None)
-        canonical = pvt_from_frame(raw, effective_units) if is_pvt else history_from_frame(raw, effective_units)
+        if is_pvt:
+            canonical = pvt_from_frame(raw, effective_units)
+        else:
+            st.session_state["history_qc"] = history_qc(raw,st.session_state["setup_si"]["setup_pressure"],initial_date,effective_units)
+            canonical, metadata = diagnostic_history_from_frame(raw,effective_units)
+            st.session_state["pressure_metadata"] = metadata
         shown = pvt_display_frame(canonical, units) if is_pvt else history_display_frame(canonical, units)
         engineering_table(shown)
+        if not is_pvt:
+            with st.expander("History and pressure quality screening"):
+                engineering_table(st.session_state["history_qc"])
+                st.caption("Pressure metadata is retained with the history snapshot. Suspicious points are never deleted automatically.")
         st.download_button(f"Download {kind} engineering data (CSV, {units.value})", shown.to_csv(index=False),
                            f"{stem}_engineering_{units.value}.csv", "text/csv")
         return canonical, effective_units
     except (EngineeringValidationError, ValueError) as exc:
         st.error(str(exc))
+        if not is_pvt and "history_qc" in st.session_state:
+            engineering_table(st.session_state["history_qc"])
         return None, effective_units
 
 
@@ -177,6 +196,8 @@ def show_results(units: UnitSystem) -> None:
         engineering_table(equation_sides_frame(state, units))
         inspector = equation_inspector_frame(state, units)
         engineering_table(inspector)
+        with st.expander("VRR / Drive-support decomposition"):
+            engineering_table(diagnostic_inspector(state, units))
         st.download_button(f"Download equation inspector (CSV, {units.value})", inspector.to_csv(index=False),
                            f"equation_inspector_{selected}_{units.value}.csv", "text/csv")
         with st.expander("Advanced Diagnostics / Absolute Residuals"):
@@ -195,14 +216,14 @@ def show_results(units: UnitSystem) -> None:
 def main() -> None:
     st.set_page_config(page_title="Material Balance Studio", layout="wide")
     st.title("Material Balance Studio")
-    st.caption("Phase 3C · Single black-oil tank · Aquifer comparison and engineering QC")
+    st.caption("Phase 4B · Single black-oil tank · Bounded reservoir history matching")
     initialize_setup()
     units = UnitSystem(st.selectbox("Project / display unit system", ["SI", "FIELD"],
                                    key="display_units", on_change=change_display_units))
     st.caption(f"Setup, previews, results, charts and engineering downloads use {units.value} "
                f"({display_unit('pressure', units)} for pressure). Uploaded-file units are set separately.")
-    setup, pvt_tab, history_tab, run_tab, results_tab, comparison_tab = st.tabs(
-        ["Reservoir Setup", "PVT Data", "History", "Run Simulation", "Results / Equation Inspector", "Aquifer Comparison"])
+    setup, pvt_tab, history_tab, run_tab, results_tab, comparison_tab, diagnosis_tab, matching_tab = st.tabs(
+        ["Reservoir Setup", "PVT Data", "History", "Run Simulation", "Results / Equation Inspector", "Aquifer Comparison", "Reservoir Diagnosis", "History Matching"])
     with setup:
         initial_date = st.date_input("Initial date", date(2020, 1, 1))
         setup_input("Initial pressure", "setup_pressure", units)
@@ -210,7 +231,7 @@ def main() -> None:
         swc = st.number_input("Connate water saturation Swc (dimensionless)", value=0.2, format="%.4f")
         setup_input("Rock compressibility", "setup_cf", units, "%.6e")
         setup_input("Water compressibility", "setup_cw", units, "%.6e")
-        m = st.number_input("Initial gas-cap / oil reservoir-volume ratio m (dimensionless)", value=0.0, format="%.4f")
+        m = st.number_input("Initial gas-cap / oil reservoir-volume ratio m (dimensionless)", value=0.0, format="%.4f",key="setup_m")
         st.caption("Initial reference is zero cumulative production/injection. Switching display units preserves edited setup values.")
         aquifer = aquifer_inputs(units, st.session_state["setup_si"]["setup_pressure"])
     with pvt_tab:
@@ -222,7 +243,7 @@ def main() -> None:
             pvt_model = correlation_workflow(units, st.session_state["setup_si"]["setup_pressure"], pvt_source)
             pvt_units = f"{pvt_source} (canonical SI)"
     with history_tab:
-        history, history_units = input_table("History", units)
+        history, history_units = input_table("History", units, initial_date)
     with run_tab:
         settings = SolverSettings()
         st.write(f"Solve chronological pressure states; results are displayed in {units.value}.")
@@ -241,6 +262,8 @@ def main() -> None:
                 result = simulate(tank, history, settings)
                 st.session_state["simulation"] = (result, {
                     "tank": tank, "pvt_units": pvt_units, "history_units": history_units,
+                    "history": tuple(history), "history_qc": st.session_state["history_qc"].copy(),
+                    "pressure_metadata": st.session_state["pressure_metadata"],
                 })
                 st.success("Run finished. Open Results / Equation Inspector.")
             except (EngineeringValidationError, ValueError) as exc:
@@ -260,6 +283,10 @@ def main() -> None:
                                     oil_in_place=values["setup_oil"], swc=swc, cf=values["setup_cf"],
                                     cw=values["setup_cw"], m=m, pvt_model=pvt_model)
         comparison_workflow(comparison_tank, history, units, pvt_model is not None and history is not None)
+    with diagnosis_tab:
+        diagnosis_workflow(units)
+    with matching_tab:
+        history_matching_workflow(units)
 
 
 if __name__ == "__main__":
