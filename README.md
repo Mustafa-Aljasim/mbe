@@ -374,7 +374,18 @@ See [Phase 2 validation](docs/phase_2_validation.md) for retained/new tests and
 the original core-file hash comparison. The synthetic Bo matching example
 recovers A=.04, B=1.02 and reduces RMSE from .0644754 to numerical zero.
 
-**Intentionally deferred:** finite VEH boundary behavior,
-global optimization, automated identifiability and parameter uncertainty,
-multi-tank systems, transmissibility, forecasting, DCA, uncertainty analysis
-and PDF reporting.
+## Phase 4C: parameter identifiability
+
+After creating a history-match scenario, open **Identifiability & Uncertainty**.
+Run bounded physical sensitivities, local rank/correlation diagnostics,
+approximate confidence, re-optimized parameter profiles and real-forward objective
+surfaces. A good pressure fit does not imply unique OOIP/aquifer parameters.
+Diagnostics preserve the accepted match and base reservoir. Statistical assumptions
+are explicit; rank-deficient and bound-limited cases receive cautions.
+
+See [methods and limitations](docs/identifiability_phase_4c.md) and
+[acceptance evidence](docs/phase_4c_acceptance.md).
+
+**Intentionally deferred:** finite VEH boundary behavior, global optimization,
+Bayesian/Monte Carlo uncertainty, multi-tank systems, transmissibility,
+forecasting, DCA, forecast uncertainty and PDF reporting.

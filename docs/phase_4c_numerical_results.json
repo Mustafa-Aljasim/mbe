@@ -1,0 +1,2013 @@
+{
+  "protected_forward_and_phase4b_outputs_identical": true,
+  "protected_matching_hashes": {
+    "src/material_balance_studio/matching/objective.py": "7e3f9c10cc21795e880c45d09304eef766362411311f842e5ea7defb866c2aa5",
+    "src/material_balance_studio/matching/optimizer.py": "f8fb1d20e0e4868bb4a768da2ca0154deba356bbd3052dfa04247578d4d1aff0",
+    "src/material_balance_studio/matching/parameters.py": "f410855dc8a83d11299f207726c375ba83a59675d27c63aac9d7718d3d7bd3c6",
+    "src/material_balance_studio/matching/result.py": "d724d0fea615380f2ca89dccb489106c01e81680e8a36647bcc9f78de4d030a7",
+    "src/material_balance_studio/matching/weighting.py": "98f14684baec66c6c27ab2f78add7b81557bf74abdecf13e6d423920047e8a9f",
+    "src/material_balance_studio/matching/__init__.py": "061d6699d4bb7c4e38c6ccce820fb319b50f0da12fb047a0e20b612a94461ef0"
+  },
+  "previous_maximum_valid_candidate_mbe_relative": 1.0743406159705994e-13,
+  "scenario_immutability": true,
+  "repeated_sensitivity_identical": true,
+  "benchmarks": {
+    "single": {
+      "fitted": {
+        "oil_in_place": 1000000.0000001761
+      },
+      "rmse_pa": 0.0,
+      "rank": 1,
+      "singular_values": [
+        93.95812979460382
+      ],
+      "condition": 1.0,
+      "correlation": [
+        [
+          1.0
+        ]
+      ],
+      "statuses": [
+        [
+          "oil_in_place",
+          "WELL CONSTRAINED",
+          "Local sensitivity, rank, coupling and data-spread checks pass; global uniqueness is not established."
+        ]
+      ],
+      "standard_errors": [
+        10643.038576715388
+      ],
+      "local_intervals": [
+        [
+          979140.0277037435,
+          1020859.9722966087
+        ]
+      ],
+      "schemes": [
+        [
+          "oil_in_place",
+          "central",
+          50.00000000000881
+        ]
+      ],
+      "warnings": [],
+      "derivative_relative_changes": [
+        7.72131426276618e-09
+      ],
+      "profile": {
+        "scenario_identity": "be10a530a75639dc089b52a468e9145514b6c8f1e75ce3632ae22fd2eb39c40b",
+        "parameter": "oil_in_place",
+        "mode": "Re-optimized",
+        "points": [
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ]
+            ],
+            "objective": 9090.165545070942,
+            "rmse": 3370861.452409262,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                true,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                666666.6666666666
+              ]
+            ],
+            "objective": 2239.4027612055174,
+            "rmse": 1673096.964167617,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                833333.3333333333
+              ]
+            ],
+            "objective": 355.182401378437,
+            "rmse": 666316.7427905787,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0000001761
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1166666.6666666665
+              ]
+            ],
+            "objective": 179.42216815464525,
+            "rmse": 473579.6767105896,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1333333.3333333333
+              ]
+            ],
+            "objective": 547.7819607028077,
+            "rmse": 827482.5985351655,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ]
+            ],
+            "objective": 971.496482647807,
+            "rmse": 1101984.8471325543,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                true
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          }
+        ],
+        "threshold": 3.841458820694124,
+        "threshold_method": "Approximate 95% profile likelihood: known independent Gaussian sigma; \u0394\u03c7\u00b2(1)",
+        "plausible_ranges": [
+          [
+            1000000.0000001761,
+            1000000.0000001761
+          ]
+        ],
+        "warnings": [
+          "Ranges resolve accepted grid nodes only; refine resolution before interpreting endpoints. No interpolation across failed or unresolved nodes.",
+          "A plausible region contains only one sampled node: its width is unresolved, not zero. Inspect threshold-crossing brackets or increase resolution."
+        ],
+        "failed_evaluations": 0,
+        "threshold_brackets": [
+          [
+            833333.3333333333,
+            1000000.0000001761
+          ],
+          [
+            1000000.0000001761,
+            1166666.6666666665
+          ]
+        ]
+      }
+    },
+    "exact": {
+      "fitted": {
+        "oil_in_place": 800000.0,
+        "aquifer.capacity": 0.0058
+      },
+      "rmse_pa": 0.0,
+      "rank": 1,
+      "singular_values": [
+        66.84728635076796,
+        5.14496009859869e-10
+      ],
+      "condition": null,
+      "correlation": null,
+      "statuses": [
+        [
+          "oil_in_place",
+          "NON-IDENTIFIABLE",
+          "Insufficient independent local information; no reliable marginal interval."
+        ],
+        [
+          "aquifer.capacity",
+          "NON-IDENTIFIABLE",
+          "Insufficient independent local information; no reliable marginal interval."
+        ]
+      ],
+      "standard_errors": [
+        null,
+        null
+      ],
+      "local_intervals": [
+        null,
+        null
+      ],
+      "schemes": [
+        [
+          "oil_in_place",
+          "central",
+          50.0
+        ],
+        [
+          "aquifer.capacity",
+          "central",
+          2.9e-07
+        ]
+      ],
+      "warnings": [
+        "Rank-deficient scaled Jacobian: parameter compensation prevents independent local estimates.",
+        "Rank deficiency, excessive conditioning or unstable derivatives: covariance/intervals withheld; inspect profiles."
+      ],
+      "derivative_relative_changes": [
+        1.5312719527525093e-09,
+        3.202452160081487e-09
+      ],
+      "profile": {
+        "scenario_identity": "2e8599a12b8af4ff899f46cc5a30a93a35ab28ac9939beb7731f3d4ea8672ec9",
+        "parameter": "oil_in_place",
+        "mode": "Re-optimized",
+        "points": [
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.006999999999999792
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 23
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                666666.6666666666
+              ],
+              [
+                "aquifer.capacity",
+                0.006333333333333306
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 20
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                800000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.0058
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 5
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                833333.3333333333
+              ],
+              [
+                "aquifer.capacity",
+                0.005666666666666676
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 14
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.005000000000000001
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 17
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1166666.6666666665
+              ],
+              [
+                "aquifer.capacity",
+                0.004333333333332969
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 20
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1333333.3333333333
+              ],
+              [
+                "aquifer.capacity",
+                0.0036666666666666653
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 20
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.003000000000000119
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 23
+          }
+        ],
+        "threshold": 1.0,
+        "threshold_method": "User-specified objective increment; no confidence probability",
+        "plausible_ranges": [
+          [
+            500000.0,
+            1500000.0
+          ]
+        ],
+        "warnings": [
+          "Ranges resolve accepted grid nodes only; refine resolution before interpreting endpoints. No interpolation across failed or unresolved nodes.",
+          "Plausible region reaches a user bound; uncertainty may extend beyond the permitted range and is not determined by this constrained profile."
+        ],
+        "failed_evaluations": 0,
+        "threshold_brackets": []
+      },
+      "surface": {
+        "scenario_identity": "2e8599a12b8af4ff899f46cc5a30a93a35ab28ac9939beb7731f3d4ea8672ec9",
+        "parameters": [
+          "oil_in_place",
+          "aquifer.capacity"
+        ],
+        "x": [
+          500000.0,
+          750000.0,
+          800000.0,
+          1000000.0,
+          1250000.0,
+          1500000.0
+        ],
+        "y": [
+          0.001,
+          0.003,
+          0.005,
+          0.0058,
+          0.007,
+          0.009
+        ],
+        "points": [
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.001
+              ]
+            ],
+            "objective": 37459.63784984834,
+            "rmse": 6842846.433488802,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                true,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                true,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                750000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.001
+              ]
+            ],
+            "objective": 14308.792540437695,
+            "rmse": 4229183.216124257,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                true,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                800000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.001
+              ]
+            ],
+            "objective": 11923.091617117847,
+            "rmse": 3860552.359623854,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                true,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.001
+              ]
+            ],
+            "objective": 5783.531812835715,
+            "rmse": 2688757.1043224866,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                true,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1250000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.001
+              ]
+            ],
+            "objective": 2239.4027612055124,
+            "rmse": 1673096.9641676154,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                true,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.001
+              ]
+            ],
+            "objective": 726.6733618287017,
+            "rmse": 953069.6209017877,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                true
+              ],
+              [
+                "aquifer.capacity",
+                true,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.003
+              ]
+            ],
+            "objective": 5783.531812835739,
+            "rmse": 2688757.104322492,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                true,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                750000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.003
+              ]
+            ],
+            "objective": 2239.402761205512,
+            "rmse": 1673096.9641676152,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                800000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.003
+              ]
+            ],
+            "objective": 1824.3598222678547,
+            "rmse": 1510115.8160335978,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.003
+              ]
+            ],
+            "objective": 726.6733618287043,
+            "rmse": 953069.6209017893,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1250000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.003
+              ]
+            ],
+            "objective": 138.440900601385,
+            "rmse": 415994.1414872706,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.003
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                true
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.005
+              ]
+            ],
+            "objective": 726.6733618287078,
+            "rmse": 953069.6209017916,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                true,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                750000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.005
+              ]
+            ],
+            "objective": 138.4409006013854,
+            "rmse": 415994.1414872712,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                800000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.005
+              ]
+            ],
+            "objective": 84.26563264533301,
+            "rmse": 324548.9805971762,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.005
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1250000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.005
+              ]
+            ],
+            "objective": 88.0259403342466,
+            "rmse": 331711.35859027837,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.005
+              ]
+            ],
+            "objective": 290.30706967616004,
+            "rmse": 602398.4039613651,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                true
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.0058
+              ]
+            ],
+            "objective": 209.88518384986338,
+            "rmse": 512207.4577867148,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                true,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                750000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.0058
+              ]
+            ],
+            "objective": 4.562990873531735,
+            "rmse": 75523.09972395643,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                800000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.0058
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.0058
+              ]
+            ],
+            "objective": 58.69071517927915,
+            "rmse": 270856.7776041407,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1250000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.0058
+              ]
+            ],
+            "objective": 244.04543654603435,
+            "rmse": 552319.4688606793,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.0058
+              ]
+            ],
+            "objective": 493.6727315564616,
+            "rmse": 785551.3442452867,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                true
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.007
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                true,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                750000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.007
+              ]
+            ],
+            "objective": 88.02594033424718,
+            "rmse": 331711.3585902795,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                800000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.007
+              ]
+            ],
+            "objective": 121.7730098589267,
+            "rmse": 390149.0257884266,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.007
+              ]
+            ],
+            "objective": 290.30706967616015,
+            "rmse": 602398.4039613652,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1250000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.007
+              ]
+            ],
+            "objective": 547.7819607028058,
+            "rmse": 827482.5985351639,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.007
+              ]
+            ],
+            "objective": 828.3961644200904,
+            "rmse": 1017592.8486015971,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                true
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.009
+              ]
+            ],
+            "objective": 290.3070696761603,
+            "rmse": 602398.4039613655,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                true,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                true
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                750000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.009
+              ]
+            ],
+            "objective": 547.7819607028052,
+            "rmse": 827482.5985351633,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                true
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                800000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.009
+              ]
+            ],
+            "objective": 602.7731252661208,
+            "rmse": 868024.427411263,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                true
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.009
+              ]
+            ],
+            "objective": 828.3961644200899,
+            "rmse": 1017592.8486015969,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                true
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1250000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.009
+              ]
+            ],
+            "objective": 1114.4733322907318,
+            "rmse": 1180293.0421566565,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                false
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                true
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.009
+              ]
+            ],
+            "objective": 1396.2707484733294,
+            "rmse": 1321112.5749123963,
+            "valid": true,
+            "optimizer_status": "FIXED OTHERS",
+            "bound_flags": [
+              [
+                "oil_in_place",
+                false,
+                true
+              ],
+              [
+                "aquifer.capacity",
+                false,
+                true
+              ]
+            ],
+            "failure": null,
+            "evaluations": 1
+          }
+        ],
+        "objective_definition": "\u03a3[(Pcalc\u2212Pobs)/sigma]\u00b2",
+        "initial": [
+          800000.0,
+          0.0058
+        ],
+        "matched": [
+          800000.0,
+          0.0058
+        ],
+        "warnings": [
+          "Conditional surface: all other parameters held at matched values; a coarse grid can miss a narrow minimum."
+        ],
+        "failed_evaluations": 0
+      },
+      "distinct_valley_nodes": 4
+    },
+    "near": {
+      "fitted": {
+        "oil_in_place": 1000000.0000039669,
+        "aquifer.capacity": 0.004999999999976643
+      },
+      "rmse_pa": 0.0,
+      "rank": 2,
+      "singular_values": [
+        58.756457140307695,
+        2.0039252640169885
+      ],
+      "condition": 29.32068285946296,
+      "correlation": [
+        [
+          1.0,
+          -0.997670068201253
+        ],
+        [
+          -0.9976700682012529,
+          1.0
+        ]
+      ],
+      "statuses": [
+        [
+          "oil_in_place",
+          "POORLY CONSTRAINED",
+          "Low sensitivity and/or strong local coupling/conditioning; inspect compensating profiles."
+        ],
+        [
+          "aquifer.capacity",
+          "POORLY CONSTRAINED",
+          "Low sensitivity and/or strong local coupling/conditioning; inspect compensating profiles."
+        ]
+      ],
+      "standard_errors": [
+        343808.0262465022,
+        0.0018104368717742655
+      ],
+      "local_intervals": [
+        null,
+        [
+          0.0014516089350157225,
+          0.008548391064937563
+        ]
+      ],
+      "schemes": [
+        [
+          "oil_in_place",
+          "central",
+          50.00000000019835
+        ],
+        [
+          "aquifer.capacity",
+          "central",
+          2.5000000000000004e-07
+        ]
+      ],
+      "warnings": [
+        "oil_in_place: symmetric interval reaches/exceeds a bound; withheld, profile the valid range."
+      ],
+      "derivative_relative_changes": [
+        3.78965657189502e-07,
+        1.5652014174940186e-06
+      ],
+      "profile": {
+        "scenario_identity": "e7d40d3e57565958a5c794db73bfdc9e3ac30bf384e45642c831db7f8a900a4a",
+        "parameter": "oil_in_place",
+        "mode": "Re-optimized",
+        "points": [
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.007637148972682587
+              ]
+            ],
+            "objective": 2.256576743079848,
+            "rmse": 53110.45969345219,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 26
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                666666.6666666666
+              ],
+              [
+                "aquifer.capacity",
+                0.006753177613979224
+              ]
+            ],
+            "objective": 0.9730662502777656,
+            "rmse": 34875.963253324015,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 23
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                833333.3333333333
+              ],
+              [
+                "aquifer.capacity",
+                0.005874200168331377
+              ]
+            ],
+            "objective": 0.2362300474651433,
+            "rmse": 17183.933174085298,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 20
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.0049999999999992125
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 8
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1000000.0000039669
+              ],
+              [
+                "aquifer.capacity",
+                0.004999999999976643
+              ]
+            ],
+            "objective": 0.0,
+            "rmse": 0.0,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 5
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1166666.6666666665
+              ],
+              [
+                "aquifer.capacity",
+                0.00412195747585283
+              ]
+            ],
+            "objective": 0.23428621893347426,
+            "rmse": 17113.087788790275,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 20
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1333333.3333333333
+              ],
+              [
+                "aquifer.capacity",
+                0.0032462854491139836
+              ]
+            ],
+            "objective": 0.9173925616790566,
+            "rmse": 33863.56009191622,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 20
+          },
+          {
+            "parameters": [
+              [
+                "oil_in_place",
+                1500000.0
+              ],
+              [
+                "aquifer.capacity",
+                0.002372966657268793
+              ]
+            ],
+            "objective": 2.021308096832729,
+            "rmse": 50265.64553490695,
+            "valid": true,
+            "optimizer_status": "CONVERGED",
+            "bound_flags": [
+              [
+                "aquifer.capacity",
+                false,
+                false
+              ]
+            ],
+            "failure": null,
+            "evaluations": 23
+          }
+        ],
+        "threshold": 3.841458820694124,
+        "threshold_method": "Approximate 95% profile likelihood: known independent Gaussian sigma; \u0394\u03c7\u00b2(1)",
+        "plausible_ranges": [
+          [
+            500000.0,
+            1500000.0
+          ]
+        ],
+        "warnings": [
+          "Ranges resolve accepted grid nodes only; refine resolution before interpreting endpoints. No interpolation across failed or unresolved nodes.",
+          "Plausible region reaches a user bound; uncertainty may extend beyond the permitted range and is not determined by this constrained profile."
+        ],
+        "failed_evaluations": 0,
+        "threshold_brackets": []
+      }
+    },
+    "zero": {
+      "fitted": {
+        "oil_in_place": 1000000.0000001759,
+        "m": 0.3
+      },
+      "rmse_pa": 0.0,
+      "rank": 1,
+      "singular_values": [
+        93.95812979498824,
+        0.0
+      ],
+      "condition": null,
+      "correlation": null,
+      "statuses": [
+        [
+          "oil_in_place",
+          "NON-IDENTIFIABLE",
+          "Insufficient independent local information; no reliable marginal interval."
+        ],
+        [
+          "m",
+          "NON-IDENTIFIABLE",
+          "Insufficient independent local information; no reliable marginal interval."
+        ]
+      ],
+      "standard_errors": [
+        null,
+        null
+      ],
+      "local_intervals": [
+        null,
+        null
+      ],
+      "schemes": [
+        [
+          "oil_in_place",
+          "central",
+          50.0000000000088
+        ],
+        [
+          "m",
+          "central",
+          5e-05
+        ]
+      ],
+      "warnings": [
+        "Rank-deficient scaled Jacobian: parameter compensation prevents independent local estimates.",
+        "Extreme scaled column-magnitude imbalance (>1e6); inspect low-sensitivity parameters.",
+        "Rank deficiency, excessive conditioning or unstable derivatives: covariance/intervals withheld; inspect profiles."
+      ],
+      "derivative_relative_changes": [
+        7.71776204680149e-09,
+        0.0
+      ]
+    },
+    "bound": {
+      "fitted": {
+        "oil_in_place": 899999.9999999999
+      },
+      "rmse_pa": 369697.9733356741,
+      "rank": 1,
+      "singular_values": [
+        116.3723802023669
+      ],
+      "condition": 1.0,
+      "correlation": [
+        [
+          1.0
+        ]
+      ],
+      "statuses": [
+        [
+          "oil_in_place",
+          "BOUND LIMITED",
+          "User bound limits inference; uncertainty outside the bound is not estimated."
+        ]
+      ],
+      "standard_errors": [
+        8593.104293828485
+      ],
+      "local_intervals": [
+        null
+      ],
+      "schemes": [
+        [
+          "oil_in_place",
+          "backward (second order)",
+          50.0
+        ]
+      ],
+      "warnings": [
+        "oil_in_place: symmetric interval reaches/exceeds a bound; withheld, profile the valid range."
+      ],
+      "derivative_relative_changes": [
+        1.911834973848544e-08
+      ]
+    }
+  }
+}

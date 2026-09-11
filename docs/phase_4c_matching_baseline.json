@@ -1,0 +1,8 @@
+{
+  "src/material_balance_studio/matching/objective.py": "7e3f9c10cc21795e880c45d09304eef766362411311f842e5ea7defb866c2aa5",
+  "src/material_balance_studio/matching/optimizer.py": "f8fb1d20e0e4868bb4a768da2ca0154deba356bbd3052dfa04247578d4d1aff0",
+  "src/material_balance_studio/matching/parameters.py": "f410855dc8a83d11299f207726c375ba83a59675d27c63aac9d7718d3d7bd3c6",
+  "src/material_balance_studio/matching/result.py": "d724d0fea615380f2ca89dccb489106c01e81680e8a36647bcc9f78de4d030a7",
+  "src/material_balance_studio/matching/weighting.py": "98f14684baec66c6c27ab2f78add7b81557bf74abdecf13e6d423920047e8a9f",
+  "src/material_balance_studio/matching/__init__.py": "061d6699d4bb7c4e38c6ccce820fb319b50f0da12fb047a0e20b612a94461ef0"
+}
