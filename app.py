@@ -25,6 +25,7 @@ from material_balance_studio.presentation.aquifer_comparison import comparison_w
 from material_balance_studio.presentation.diagnosis import diagnosis_workflow, diagnostic_inspector
 from material_balance_studio.presentation.history_matching import history_matching_workflow, refresh_matching_units
 from material_balance_studio.presentation.uncertainty import uncertainty_workflow
+from material_balance_studio.presentation.tank_network import multi_tank_workflow
 from material_balance_studio.diagnostics.pressure_qc import diagnostic_history_from_frame, history_qc
 from material_balance_studio.solver.simulation import simulate
 from material_balance_studio.units.display import column_label, display_unit, format_value, from_display, to_display
@@ -217,14 +218,14 @@ def show_results(units: UnitSystem) -> None:
 def main() -> None:
     st.set_page_config(page_title="Material Balance Studio", layout="wide")
     st.title("Material Balance Studio")
-    st.caption("Phase 4C · Single black-oil tank · Matching and parameter identifiability")
+    st.caption("Phase 5A · Single-tank analysis and multi-tank forward modeling")
     initialize_setup()
     units = UnitSystem(st.selectbox("Project / display unit system", ["SI", "FIELD"],
                                    key="display_units", on_change=change_display_units))
     st.caption(f"Setup, previews, results, charts and engineering downloads use {units.value} "
                f"({display_unit('pressure', units)} for pressure). Uploaded-file units are set separately.")
-    setup, pvt_tab, history_tab, run_tab, results_tab, comparison_tab, diagnosis_tab, matching_tab, uncertainty_tab = st.tabs(
-        ["Reservoir Setup", "PVT Data", "History", "Run Simulation", "Results / Equation Inspector", "Aquifer Comparison", "Reservoir Diagnosis", "History Matching", "Identifiability & Uncertainty"])
+    setup, pvt_tab, history_tab, run_tab, results_tab, comparison_tab, diagnosis_tab, matching_tab, uncertainty_tab, network_tab = st.tabs(
+        ["Reservoir Setup", "PVT Data", "History", "Run Simulation", "Results / Equation Inspector", "Aquifer Comparison", "Reservoir Diagnosis", "History Matching", "Identifiability & Uncertainty", "Multi-Tank Forward"])
     with setup:
         initial_date = st.date_input("Initial date", date(2020, 1, 1))
         setup_input("Initial pressure", "setup_pressure", units)
@@ -290,6 +291,8 @@ def main() -> None:
         history_matching_workflow(units)
     with uncertainty_tab:
         uncertainty_workflow(units)
+    with network_tab:
+        multi_tank_workflow(units)
 
 
 if __name__ == "__main__":

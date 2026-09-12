@@ -386,6 +386,19 @@ are explicit; rank-deficient and bound-limited cases receive cautions.
 See [methods and limitations](docs/identifiability_phase_4c.md) and
 [acceptance evidence](docs/phase_4c_acceptance.md).
 
+## Phase 5A: multi-tank forward modeling
+
+Open **Multi-Tank Forward** to configure compartment reservoirs, independent or
+shared PVT, separate aquifers and histories, and explicit transmissibility links.
+The coupled pressure solver uses conservative trapezoidal volume exchange with
+deterministic stiffness refinement. The example button loads a closed two-tank
+equilibration case. Results include tank/connection histories, separate injection,
+aquifer and inter-tank support, equation inspectors and conservation QC.
+
+See [network formulation and scope](docs/tank_network_phase_5a.md) and
+[Phase 5A acceptance](docs/phase_5a_acceptance.md). Communication is a lumped
+reservoir-volume model; fluid phases/composition are not transported.
+
 **Intentionally deferred:** finite VEH boundary behavior, global optimization,
-Bayesian/Monte Carlo uncertainty, multi-tank systems, transmissibility,
-forecasting, DCA, forecast uncertainty and PDF reporting.
+Bayesian/Monte Carlo uncertainty, multi-tank history matching and uncertainty,
+time-varying allocation, forecasting, DCA, forecast uncertainty and PDF reporting.
