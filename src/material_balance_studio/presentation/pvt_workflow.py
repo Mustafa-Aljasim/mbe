@@ -17,6 +17,8 @@ from material_balance_studio.pvt.qc.physical_checks import physical_qc, failures
 from material_balance_studio.units.display import to_display, from_display, column_label
 from material_balance_studio.units.temperature import temperature_to_kelvin, temperature_from_kelvin
 from .pvt import comparison_figure, screening_frame, fit_frame, selected_model_frame, property_detail_frame, PROPERTY_LABELS
+from .engineering_inputs import (default_upload_units,template_frame,sparse_lab_input,laboratory_file_frame,
+    informational_composition)
 
 DIMENSIONAL = {"temperature": "temperature", "pb": "pressure", "rsb": "rs", "low": "pressure", "high": "pressure"}
 DEFAULTS = {"temperature": 363.15, "pb": 18e6, "rsb": 90., "low": 2e6, "high": 35e6}
@@ -57,71 +59,89 @@ def _number(name, label, units):
 def _lab_editor(units):
     st.caption("Sparse measurements: leave unavailable properties blank. Pressure is mandatory for a populated row. Duplicate pressures are rejected.")
     upload = st.file_uploader("Upload laboratory CSV / Excel", type=["csv", "xlsx"], key="lab_upload")
+    default_upload_units(upload,'lab_file_units',units)
     source_units = st.selectbox("Laboratory file units", ["SI", "FIELD"], key="lab_file_units", disabled=upload is None)
-    st.caption("File headers: pressure, bo, rs, oil_viscosity, z, bg, bw. SI files use Pa and Pa·s; FIELD files use psia, cP, scf/STB and rb/scf. Editor pressure uses project display units.")
+    st.caption("Only pressure is required. Optional: bo, rs, oil_viscosity, z, bg, bw, gas_viscosity. Tagged SI template pressure uses MPa; plain legacy SI headers use Pa. Gas viscosity is stored/informational: no validated regression is available.")
+    st.download_button(f'Download laboratory template ({units.value})',template_frame('Laboratory',units).to_csv(index=False),f'laboratory_template_{units.value}.csv',key='lab_primary_template')
     st.session_state.setdefault("pvt_lab", LaboratoryData())
+    st.session_state.setdefault('pvt_lab_gas_viscosity',())
     signature = None if upload is None else sha256(upload.getvalue() + source_units.encode()).hexdigest()
     if signature != st.session_state.get("lab_upload_signature"):
         if upload is not None:
             upload.seek(0)
-            st.session_state["pvt_lab"] = lab_from_frame(read_table(upload, upload.name), source_units)
+            imported=sparse_lab_input(read_table(upload,upload.name),source_units)
+            st.session_state['pvt_lab'],st.session_state['pvt_lab_gas_viscosity']=imported.lab,imported.gas_viscosity
         st.session_state["lab_upload_signature"] = signature
         st.session_state.pop("lab_editor_context", None)
     if st.button("Load bundled sparse lab example", key="load_lab_example"):
         source = Path(__file__).resolve().parents[3] / "examples" / "correlation_lab_SI.csv"
         st.session_state["pvt_lab"] = lab_from_frame(pd.read_csv(source))
+        st.session_state['pvt_lab_gas_viscosity']=()
         st.session_state.pop("lab_editor_context", None)
     context = (str(units), signature)
     if st.session_state.get("lab_editor_context") != context:
         # Keep editor input fixed until its context changes; repeated added rows
         # must not be reapplied to the editor's already-edited output.
         frame = lab_to_frame(st.session_state["pvt_lab"], units)
+        gas=dict(st.session_state['pvt_lab_gas_viscosity'])
+        frame['gas_viscosity']=[to_display(gas.get(p.pressure),'viscosity',units) for p in st.session_state['pvt_lab'].points]
         if str(units) in ("SI", "UnitSystem.SI"):
             frame["pressure"] = frame["pressure"] / 1e6
         st.session_state["lab_editor_base"] = frame
         st.session_state["lab_editor_canonical"] = st.session_state["pvt_lab"]
+        st.session_state['lab_editor_gas_canonical']=st.session_state['pvt_lab_gas_viscosity']
         st.session_state["lab_editor_revision"] = st.session_state.get("lab_editor_revision", 0) + 1
         st.session_state["lab_editor_context"] = context
     edited = st.data_editor(st.session_state["lab_editor_base"], num_rows="dynamic", hide_index=True,
         key=f"lab_editor_{st.session_state['lab_editor_revision']}",
-        column_config={k: st.column_config.NumberColumn(column_label(k, QUANTITIES[k], units), format="%.8g")
-                       for k in ("pressure", *PROPERTIES)}, width="stretch")
+        column_config={k: st.column_config.NumberColumn(column_label(k, 'viscosity' if k=='gas_viscosity' else QUANTITIES[k], units), format="%.8g")
+                       for k in ("pressure", *PROPERTIES,'gas_viscosity')}, width="stretch")
     imported = edited.copy()
     if str(units) in ("SI", "UnitSystem.SI"):
         imported["pressure"] *= 1e6
-    lab = (st.session_state["lab_editor_canonical"] if edited.equals(st.session_state["lab_editor_base"])
-           else lab_from_frame(imported, units))
+    if edited.equals(st.session_state['lab_editor_base']):
+        lab=st.session_state['lab_editor_canonical']
+        gas=st.session_state['lab_editor_gas_canonical']
+    else:
+        parsed=sparse_lab_input(imported,units)
+        lab,gas=parsed.lab,parsed.gas_viscosity
     st.session_state["pvt_lab"] = lab
-    st.download_button("Download lab data in import format", lab_to_frame(lab, units).to_csv(index=False),
+    st.session_state['pvt_lab_gas_viscosity']=gas
+    st.download_button("Download lab data in import format", laboratory_file_frame(lab,gas,units).to_csv(index=False),
                        f"laboratory_{units.value}.csv", "text/csv")
-    st.caption("Download uses file units (SI pressure Pa), with blank measurements preserved.")
+    st.caption("Download follows project units with explicit unit headers; blank measurements remain blank.")
     return lab
 
 
+def fluid_inputs(units,initial_pressure):
+    st.session_state.setdefault('pvt_fluid_si',dict(DEFAULTS))
+    st.caption('Rsb: scalar solution GOR at bubble point. Rs(P): pressure-dependent solution ratio. Rp = Gp/Np: producing ratio derived from history; it is not a PVT input.')
+    api=st.number_input('Oil Gravity / API',value=35.,key='fluid_api')
+    gg=st.number_input('Gas specific gravity (air = 1)',value=.75,key='fluid_gg')
+    temperature=_number('temperature','Reservoir temperature',units)
+    has_pb=st.checkbox('Measured Pb available',value=True,key='has_pb')
+    pb=_number('pb','Measured Pb',units) if has_pb else None
+    has_rsb=st.checkbox('Measured Rsb available',value=True,key='has_rsb')
+    rsb=_number('rsb','Solution GOR at Pb, Rsb',units) if has_rsb else None
+    oil_sg=st.number_input('Measured oil SG (0 = unavailable)',value=0.,key='fluid_oil_sg')
+    water_sg=st.number_input('Water specific gravity',value=1.,key='fluid_water_sg')
+    salinity=st.number_input('Water salinity (mass fraction, 0–0.35)',value=0.,key='fluid_salinity',format='%.6g')
+    gas_basis=st.radio('Gas composition basis',['sweet','sour'],horizontal=True,key='fluid_gas_basis')
+    composition={n:st.number_input(f'{n.upper()} mole % — stored/informational',min_value=0.,max_value=100.,value=0.,key='fluid_info_'+n) for n in ('h2s','co2','n2')}
+    st.session_state['pvt_informational_composition']=informational_composition(**composition)
+    st.caption('H2S/CO2/N2 percentages do not affect validated calculations. No acid-gas correction is applied. McCain Bw does not explicitly use water SG or salinity. Vasquez–Beggs uses its validated gas-gravity basis.')
+    low,high=_number('low','Minimum project pressure',units),_number('high','Maximum project pressure',units)
+    return BlackOilFluid(api,gg,temperature,initial_pressure,pb,rsb,oil_sg or None,water_sg,salinity,gas_basis),low,high
+
+
 def correlation_workflow(units, initial_pressure, source):
-    overview, fluid_tab, lab_tab, screening_tab, match_tab, selected_tab, qc_tab = st.tabs(
-        ["PVT Overview", "Fluid Inputs", "Laboratory Data", "Correlation Screening", "Correlation Matching", "Selected PVT Model", "PVT QC"])
-    with overview:
-        st.write("Define fluid → add available measurements → screen each property → select correlations → optionally match → review QC.")
-        st.caption("Defaults are synthetic. Supply at least measured Pb or Rsb; initial pressure is not assumed to be Pb. Predictions are continuous inside the requested range.")
+    fluid_tab,lab_tab,screening_tab,match_tab,selected_tab,tables_tab,qc_tab=st.tabs(
+        ['Fluid Inputs','Laboratory Data','Correlations','Match Data / Regression','Final PVT Model','PVT Tables','PVT QC'])
+    st.caption('Synthetic defaults. Define fluid → add measured properties → select validated correlations → match → inspect the final model, tables and QC.')
     try:
         with fluid_tab:
-            st.session_state.setdefault("pvt_fluid_si", dict(DEFAULTS))
-            api = st.number_input("Oil API gravity", value=35., key="fluid_api")
-            gg = st.number_input("Gas specific gravity (air = 1)", value=.75, key="fluid_gg")
-            temperature = _number("temperature", "Reservoir temperature", units)
-            st.write(f"Initial reservoir pressure from setup: {to_display(initial_pressure, 'pressure', units):.8g}")
-            has_pb = st.checkbox("Measured Pb available", value=True, key="has_pb")
-            pb = _number("pb", "Measured Pb", units) if has_pb else None
-            has_rsb = st.checkbox("Measured Rsb available", value=True, key="has_rsb")
-            rsb = _number("rsb", "Measured Rsb", units) if has_rsb else None
-            oil_sg = st.number_input("Measured oil SG (0 = unavailable)", value=0., key="fluid_oil_sg")
-            water_sg = st.number_input("Water specific gravity", value=1., key="fluid_water_sg")
-            salinity = st.number_input("Water salinity (mass fraction, 0–0.35)", value=0., key="fluid_salinity", format="%.6g")
-            gas_basis = st.radio("Gas composition basis", ["sweet", "sour"], horizontal=True, key="fluid_gas_basis")
-            low, high = _number("low", "Minimum project pressure", units), _number("high", "Maximum project pressure", units)
-            fluid = BlackOilFluid(api, gg, temperature, initial_pressure, pb, rsb, oil_sg or None, water_sg, salinity, gas_basis)
-            st.caption("Vasquez–Beggs uses gas gravity on its 100-psig separator basis. McCain Bw does not explicitly use the entered water SG or salinity.")
+            fluid,low,high=fluid_inputs(units,initial_pressure)
+            pb=fluid.pb
         with lab_tab:
             lab = _lab_editor(units)
         with screening_tab:
@@ -213,13 +233,20 @@ def correlation_workflow(units, initial_pressure, source):
                                     width="stretch", key=f"pvt_plot_{name}")
                 except (ValueError, ArithmeticError, TypeError) as exc:
                     st.error(f"{name} curve unavailable: {exc}")
-            export = {"source": source, "canonical_fluid": asdict(fluid), "pressure_bounds_Pa": [low, high],
+            export = {"source": source, "canonical_fluid": asdict(fluid), "informational_composition":st.session_state.get('pvt_informational_composition',{}), "pressure_bounds_Pa": [low, high],
                       "selections": selections, "use_measured_pb": use_pb, "pseudo_critical_method": pseudo_method,
                       "property_summary": selected_model_frame(active, qc).to_dict(orient="records"),
                       "active_transforms": [asdict(t) for t in active.transforms],
                       "fit_records": [asdict(r) for r in fits.values()]}
             import json
             st.download_button("Download selected model and match records (JSON, canonical SI)", json.dumps(export, indent=2), "pvt_model.json", "application/json")
+        with tables_tab:
+            import numpy as np
+            from .engineering_inputs import engineering_file_frame
+            rows=[asdict(active.properties_at_pressure(float(p))) for p in np.linspace(low,high,41)]
+            table=engineering_file_frame(pd.DataFrame(rows).dropna(axis=1,how='all'),units)
+            st.dataframe(table,hide_index=True)
+            st.download_button('Download final PVT table',table.to_csv(index=False),f'final_pvt_{units.value}.csv')
         with qc_tab:
             st.write("Active model QC")
             st.dataframe(pd.DataFrame([asdict(item) for item in qc]), hide_index=True, width="stretch")

@@ -1,0 +1,17 @@
+{
+  "app.py": {
+    "before": "9a59fd02bd4734b691b1b29faa655735104579dfa8f376f03b7237d4c9378cdb",
+    "after": "6807838a91b1bec0488025c41fd6032a595d04d6ad07a18cb2b15357d2000375",
+    "reason": "Authorized engineering UX presentation and workflow revision; numerical engines unchanged"
+  },
+  "src/material_balance_studio/presentation/pvt_workflow.py": {
+    "before": "10d286f05038ece3cd88f8938858c011a4b14d6aec27637afe560b34b215093d",
+    "after": "4408de1f4f9cb16a411d6cdae5317ef1688e85b7ae771b4fe65851733fc78cc0",
+    "reason": "Authorized engineering UX presentation and workflow revision; numerical engines unchanged"
+  },
+  "src/material_balance_studio/presentation/aquifer_comparison.py": {
+    "before": "939ae74148094ebe0e5c730a8acbf84c13761e50a0512df9fd2a476559153ab0",
+    "after": "d84630c47c3a0f7a782514408fe621da619717460e6fb807c503f80067bea315",
+    "reason": "Authorized engineering UX presentation and workflow revision; numerical engines unchanged"
+  }
+}

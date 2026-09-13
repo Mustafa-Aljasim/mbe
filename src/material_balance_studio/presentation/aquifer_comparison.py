@@ -69,6 +69,8 @@ def comparison_figures(runs, units):
 
 
 def refresh_comparison_units():
+    from .aquifer_calibration_workflow import refresh_calibration_units
+    refresh_calibration_units()
     for name, draft in st.session_state.get("comparison_drafts", {}).items():
         for parameter, value in draft.items():
             st.session_state[f"cmp_{name}_{parameter}"] = to_display(value, FIELDS[parameter][1], st.session_state["display_units"])
@@ -83,6 +85,9 @@ def comparison_workflow(tank_factory, history, units, enabled):
     st.subheader("Aquifer Comparison")
     st.caption("All runs use the current reservoir, PVT and production/injection history. Observed pressure is a common diagnostic target; parameters are supplied by you.")
     selected = st.multiselect("Models to compare", list(MODELS), default=[], key="comparison_models")
+    mode=st.radio('Comparison mode',['Compare with Supplied Parameters','History-Match Each Aquifer Before Comparison'],key='comparison_mode')
+    if mode=='Compare with Supplied Parameters':
+        st.caption('Uses exactly the aquifer parameters entered by the engineer. No parameters are changed.')
     st.session_state.setdefault("comparison_drafts", {})
     models, invalid = {}, False
     for name in selected:
@@ -101,6 +106,10 @@ def comparison_workflow(tank_factory, history, units, enabled):
             except ValueError as exc:
                 st.error(f"FAIL · {name}: {exc}")
                 invalid = True
+    if mode=='History-Match Each Aquifer Before Comparison':
+        from .aquifer_calibration_workflow import calibrated_workflow
+        calibrated_workflow(tank_factory,history,models,units,enabled and bool(models) and not invalid)
+        return
     if st.button("Run aquifer comparison", key="run_comparison", disabled=not enabled or not models or invalid):
         try:
             tank = tank_factory()
@@ -122,6 +131,7 @@ def comparison_workflow(tank_factory, history, units, enabled):
     else:
         st.info("No complete run with observed pressures is available for numerical ranking.")
     summary = comparison_frame(runs, units)
+    summary.insert(1,'Comparison Mode','Compare with Supplied Parameters')
     st.dataframe(summary, hide_index=True, width="stretch")
     st.download_button("Download comparison summary", summary.to_csv(index=False), f"aquifer_comparison_{units}.csv")
     st.write("ENGINEERING ACCEPTABILITY")

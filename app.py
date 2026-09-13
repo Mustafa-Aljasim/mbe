@@ -19,13 +19,18 @@ from material_balance_studio.presentation.tables import (
     equation_sides_frame, history_display_frame, pvt_display_frame, reservoir_display_frame,
 )
 from material_balance_studio.pvt.table_model import TablePVTModel
-from material_balance_studio.presentation.pvt_workflow import correlation_workflow, refresh_pvt_units
+from material_balance_studio.presentation.pvt_workflow import correlation_workflow, refresh_pvt_units,fluid_inputs,_lab_editor
 from material_balance_studio.presentation.aquifer import aquifer_inputs, refresh_aquifer_units, aquifer_figures, aquifer_setup_frame
 from material_balance_studio.presentation.aquifer_comparison import comparison_workflow, refresh_comparison_units
 from material_balance_studio.presentation.diagnosis import diagnosis_workflow, diagnostic_inspector
 from material_balance_studio.presentation.history_matching import history_matching_workflow, refresh_matching_units
 from material_balance_studio.presentation.uncertainty import uncertainty_workflow
 from material_balance_studio.presentation.tank_network import multi_tank_workflow
+from material_balance_studio.presentation.network_matching import network_history_workflow
+from material_balance_studio.presentation.network_uncertainty import network_identifiability_workflow
+from material_balance_studio.presentation.engineering_inputs import template_frame,normalize_file_frame,default_upload_units
+from material_balance_studio.presentation.history_plots import history_plot_workflow
+from material_balance_studio.presentation.pressure_oil import results_pressure_panels
 from material_balance_studio.diagnostics.pressure_qc import diagnostic_history_from_frame, history_qc
 from material_balance_studio.solver.simulation import simulate
 from material_balance_studio.units.display import column_label, display_unit, format_value, from_display, to_display
@@ -79,6 +84,7 @@ def input_table(kind: str, units: UnitSystem, initial_date=None) -> tuple[PVTTab
     is_pvt = kind == "PVT"
     stem = kind.lower()
     upload = st.file_uploader(f"Upload {kind} CSV / Excel", type=["csv", "xlsx"], key=f"{stem}_upload")
+    default_upload_units(upload,f"{stem}_file_units",units)
     file_units = st.selectbox(f"Uploaded {kind} file unit system", ["SI", "FIELD"],
                               key=f"{stem}_file_units", disabled=upload is None)
     effective_units = file_units if upload is not None else "SI"
@@ -93,7 +99,8 @@ def input_table(kind: str, units: UnitSystem, initial_date=None) -> tuple[PVTTab
     if not is_pvt:
         st.session_state.pop("history_qc", None)
         st.session_state.pop("pressure_metadata", None)
-    with st.expander(f"{kind} import format / original SI template"):
+    st.download_button(f"Download {kind} template ({units.value})",template_frame(kind,units).to_csv(index=False),f"{stem}_template_{units.value}.csv","text/csv",key=f"{stem}_primary_template")
+    with st.expander(f"{kind} import format / alternate templates"):
         st.caption("The uploaded-file unit system describes file contents. It does not control project display units.")
         if is_pvt:
             st.write("Required headers: pressure, bo, rs, bg, bw. Optional: bwinj, bginj, oil_viscosity, gas_viscosity, z.")
@@ -105,12 +112,12 @@ def input_table(kind: str, units: UnitSystem, initial_date=None) -> tuple[PVTTab
             st.write("Optional pressure metadata: pressure_source, pressure_sigma, pressure_quality, pressure_note. Sigma uses the uploaded pressure unit (Pa or psi). Sources: Average reservoir pressure, Static well pressure, PBU-derived pressure, RFT/MDT pressure, Estimated pressure, Other.")
             st.caption("SI files: surface m³ and Pa. FIELD: oil in STB, water in bbl, gas in scf, pressure in psia. "
                        "Cumulative volumes start at initial date. Blank observed pressure is allowed.")
-        st.caption("Engineering downloads have readable unit-bearing headers. Use the original template for imports; "
-                   "SI import pressure is Pa, whereas SI display pressure is MPa.")
+        st.caption("Primary templates follow project units: SI pressure is explicitly labelled MPa; FIELD pressure is psia. "
+                   "Tagged template headers are accepted directly. Legacy plain SI headers still mean Pa. File units remain independent of display units.")
         st.download_button(f"Download original {kind} import template (SI, Pa)",
                            (EXAMPLES / f"{stem}.csv").read_bytes(), f"{stem}_import_SI_Pa.csv", "text/csv")
     try:
-        raw = read_table(source, upload.name if upload is not None else None)
+        raw = normalize_file_frame(read_table(source, upload.name if upload is not None else None),effective_units)
         if is_pvt:
             canonical = pvt_from_frame(raw, effective_units)
         else:
@@ -179,7 +186,14 @@ def show_results(units: UnitSystem) -> None:
         st.metric("Maximum absolute relative balance residual", f"{maximum_error:.3e}")
         st.caption("PASS ≤ 1e-8 · WARNING > 1e-8 to 1e-5 · FAIL > 1e-5 or solver failure. "
                    "A failed timestep is reported separately and never treated as a successful state.")
-        st.plotly_chart(pressure_figure(result, units), width="stretch", key="pressure_plot")
+        if 'tank' in snapshot and 'history' in snapshot:
+            pressure_plot,reference=results_pressure_panels(result,snapshot['tank'],snapshot['history'],units)
+            st.plotly_chart(pressure_plot,width='stretch',key='pressure_plot')
+            st.caption('The cumulative-oil panel uses the aquifer selected in Reservoir Setup for this saved run. Its Without-Aquifer reference changes only aquifer support; observations use Np from the same history date.')
+            if not reference.converged:
+                st.warning('Without-Aquifer reference failed before completing history; only its converged states are plotted.')
+        else:
+            st.plotly_chart(pressure_figure(result, units), width="stretch", key="pressure_plot")
         st.plotly_chart(closure_figure(result), width="stretch", key="residual_plot")
         for index, figure in enumerate(aquifer_figures(result, units)):
             st.plotly_chart(figure, width="stretch", key=f"aquifer_plot_{index}")
@@ -218,14 +232,14 @@ def show_results(units: UnitSystem) -> None:
 def main() -> None:
     st.set_page_config(page_title="Material Balance Studio", layout="wide")
     st.title("Material Balance Studio")
-    st.caption("Phase 5A · Single-tank analysis and multi-tank forward modeling")
+    st.caption("Single- and Multi-Tank Material Balance, History Matching and Reservoir Diagnostics")
     initialize_setup()
     units = UnitSystem(st.selectbox("Project / display unit system", ["SI", "FIELD"],
                                    key="display_units", on_change=change_display_units))
     st.caption(f"Setup, previews, results, charts and engineering downloads use {units.value} "
                f"({display_unit('pressure', units)} for pressure). Uploaded-file units are set separately.")
-    setup, pvt_tab, history_tab, run_tab, results_tab, comparison_tab, diagnosis_tab, matching_tab, uncertainty_tab, network_tab = st.tabs(
-        ["Reservoir Setup", "PVT Data", "History", "Run Simulation", "Results / Equation Inspector", "Aquifer Comparison", "Reservoir Diagnosis", "History Matching", "Identifiability & Uncertainty", "Multi-Tank Forward"])
+    setup, pvt_tab, history_tab, run_tab, results_tab, comparison_tab, diagnosis_tab, matching_tab, uncertainty_tab, network_tab, network_history_tab, network_uncertainty_tab = st.tabs(
+        ["Reservoir Setup", "PVT Data", "History", "Run Simulation", "Results / Equation Inspector", "Aquifer Comparison", "Reservoir Diagnosis", "History Matching", "Identifiability & Uncertainty", "Multi-Tank Forward", "Network History & Matching", "Network Identifiability"])
     with setup:
         initial_date = st.date_input("Initial date", date(2020, 1, 1))
         setup_input("Initial pressure", "setup_pressure", units)
@@ -239,13 +253,38 @@ def main() -> None:
     with pvt_tab:
         pvt_source = st.radio("PVT Source", ["Tabulated PVT", "Correlation PVT", "Matched Correlation PVT"], horizontal=True, key="pvt_source")
         if pvt_source == "Tabulated PVT":
-            pvt_table, pvt_units = input_table("PVT", units)
-            pvt_model = TablePVTModel(pvt_table) if pvt_table is not None else None
+            fluid_page,lab_page,corr_page,regression_page,final_page,table_page,qc_page=st.tabs(['Fluid Inputs','Laboratory Data','Correlations','Match Data / Regression','Final PVT Model','PVT Tables','PVT QC'])
+            with fluid_page:
+                st.caption('In Tabulated PVT mode, these fluid inputs are stored metadata. The final table determines simulation properties and pressure coverage.')
+                try:
+                    fluid,_,_=fluid_inputs(units,st.session_state['setup_si']['setup_pressure'])
+                    import json
+                    st.download_button('Download fluid metadata',json.dumps(dict(canonical_fluid=asdict(fluid),informational_composition=st.session_state.get('pvt_informational_composition',{})),indent=2),'fluid_metadata.json')
+                except ValueError as exc:
+                    st.warning('Fluid metadata: '+str(exc))
+            with lab_page:
+                st.caption('Laboratory measurements are separate from the complete forward-model table. Only pressure is universally required in the lab file.')
+                if st.checkbox('Open sparse laboratory editor',key='tabulated_lab_editor'):
+                    try: _lab_editor(units)
+                    except ValueError as exc: st.error(str(exc))
+            with corr_page:
+                st.caption('Choose Correlation PVT or Matched Correlation PVT above to select the validated correlations.')
+            with regression_page:
+                st.caption('Measured Bo/Rs alone can support their matching. Missing laboratory properties stay missing. Choose a correlation source above to regress it.')
+            with table_page:
+                pvt_table,pvt_units=input_table('PVT',units)
+                pvt_model=TablePVTModel(pvt_table) if pvt_table is not None else None
+            with final_page:
+                st.write('Active forward-model source: Tabulated PVT')
+                st.caption('Pressure, Bo, Rs(P), Bg and Bw remain mandatory. Sparse laboratory data never substitutes for missing final-table properties.')
+            with qc_page:
+                st.caption('Final tables retain strict schema, positivity, increasing pressure and no-extrapolation validation. Import failures must be resolved before simulation.')
         else:
             pvt_model = correlation_workflow(units, st.session_state["setup_si"]["setup_pressure"], pvt_source)
             pvt_units = f"{pvt_source} (canonical SI)"
     with history_tab:
         history, history_units = input_table("History", units, initial_date)
+        history_plot_workflow(history,units)
     with run_tab:
         settings = SolverSettings()
         st.write(f"Solve chronological pressure states; results are displayed in {units.value}.")
@@ -293,6 +332,10 @@ def main() -> None:
         uncertainty_workflow(units)
     with network_tab:
         multi_tank_workflow(units)
+    with network_history_tab:
+        network_history_workflow(units)
+    with network_uncertainty_tab:
+        network_identifiability_workflow(units)
 
 
 if __name__ == "__main__":

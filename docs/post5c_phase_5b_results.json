@@ -1,0 +1,828 @@
+{
+  "previous_phase5a_and_all_prior_outputs_identical": true,
+  "protected_sources": {
+    "src/material_balance_studio/domain/models.py": "db75198c56c4b468fc77c633b321595a48e5c8bf92c568bc923b8738664eccce",
+    "src/material_balance_studio/domain/validation.py": "be4d2413dd0f44b18849e20cb532562118c76e761d3618a9fe1f1e37c3a778ec",
+    "src/material_balance_studio/domain/__init__.py": "2ab226aa23b8883540c8a3054d84d4b10f0f4c785a088e5cd8a1da787be67afc",
+    "src/material_balance_studio/pvt/base.py": "508caf6a736641d0d893ab5f7d967fe30235adadabd8a7ecac24c3a1faf01246",
+    "src/material_balance_studio/pvt/fluid.py": "cbb2b9c751cc8ca70efa62b44a2763e0571333bfdd0da160e1f4436431e2df55",
+    "src/material_balance_studio/pvt/laboratory.py": "f6e14c50890763684df1b763d07815d5e7f56518dd4336c54ede67cabb8da56e",
+    "src/material_balance_studio/pvt/table_model.py": "638ecaf60172b73debc445e2b17b614f740b47870ec29b623121320d2886cb7d",
+    "src/material_balance_studio/pvt/__init__.py": "e7d10393f77e84ae5e0820ee349383ef3b4157eb0c5971230797a6be15a1eb62",
+    "src/material_balance_studio/pvt/correlations/base.py": "1264847d8ae90bf6e05ed48050589069ed7d3c4496558a1b334b8057e9bdcd5a",
+    "src/material_balance_studio/pvt/correlations/bubble_point.py": "8ddd4536bc2e5e9e32477c6ef9025cb4911413b788efdc37308219a8ff57f69e",
+    "src/material_balance_studio/pvt/correlations/gas_fvf.py": "1ca672e9cef3b100fc391fe004e481ea37e05a3b0f926f6264d4a8ad35e03707",
+    "src/material_balance_studio/pvt/correlations/gas_pseudocritical.py": "641e96782e0b32f43b385bbf7688c0cb26bc989353ef634e9ee55d681ce2867b",
+    "src/material_balance_studio/pvt/correlations/gas_z.py": "a94cd5d012ab4a8fff2faf41c2687635b8c722756f6e398255af30ead29008f4",
+    "src/material_balance_studio/pvt/correlations/oil_fvf.py": "c48c701528017031b25c57f93cb5f509664df831af2b01735ad4d60562b0b060",
+    "src/material_balance_studio/pvt/correlations/oil_viscosity.py": "d42e851ca18258d924c57c489aea9e5a962b4703a2a750e80ec1dacf838699f9",
+    "src/material_balance_studio/pvt/correlations/registry.py": "a9ea0e5755bc8d69712be2545edbfd9fb33bd190bf4b95c0b1a868339b7865f5",
+    "src/material_balance_studio/pvt/correlations/solution_gor.py": "4fc9805dd829f8e7062e543fbc488d02543818c514c63acf49502f22dce8ab1f",
+    "src/material_balance_studio/pvt/correlations/water.py": "9d91caf8b7447770d3f0b84a55f3e7c89917a08d4a6550beb6bf89173b196060",
+    "src/material_balance_studio/pvt/correlations/__init__.py": "6451be673c348707482334cbab36f5541d8890f8c369fdd0e332441643a02bfc",
+    "src/material_balance_studio/pvt/matching/metrics.py": "e381113e8e770ea2886b9a19df37b6171247dcd22f5709e7699fdee5f825838a",
+    "src/material_balance_studio/pvt/matching/ranking.py": "285aaa754c0bec0b8c9a88e9c0b623c2f081647610868573ed3fb36bb19a273e",
+    "src/material_balance_studio/pvt/matching/regression.py": "2d662d1e4335251b30c41ef22b5c1d47720d5ff3c66de3caa78db60947d6a9fb",
+    "src/material_balance_studio/pvt/matching/__init__.py": "85095ff44ec6f173a00d08a98319da838a8c1d95a4478fbd245f2e9a5a70cf49",
+    "src/material_balance_studio/pvt/models/correlation_model.py": "9786684ad0ea05416154a87afc7e58dd8ed242406ee9549162a186cafc9b9af5",
+    "src/material_balance_studio/pvt/models/__init__.py": "90109f1df81666d1155edd83c1999daf2a8aae99c4376a134ed6199c8379ccfc",
+    "src/material_balance_studio/pvt/qc/physical_checks.py": "23398a9444edbc07b29372d02de361df65861c5841bdb237ee97a5d3959abb8f",
+    "src/material_balance_studio/pvt/qc/validity.py": "85bbe8bf4123058f205dbac90a361f92ea854d3b6e57ac480333650aa0fca3c7",
+    "src/material_balance_studio/pvt/qc/__init__.py": "e3a33a183e9917561393793bb23f87468956ae744c6d5eb95e09de8c85192594",
+    "src/material_balance_studio/aquifer/base.py": "ad86e72e8212c7636b0b04c9b2611f501856571942490ed2a15399f59d55b6aa",
+    "src/material_balance_studio/aquifer/carter_tracy.py": "c7764e51e65b4dac900e4fb669d1ea6e78794aed166ee7df6a39aa61e5b01a9d",
+    "src/material_balance_studio/aquifer/carter_tracy_response.py": "7b24234f30c3534434bd0138e83240afa9cf038837a1638b204ece1a4bfdd423",
+    "src/material_balance_studio/aquifer/fetkovich.py": "de8b00039b7bb3ab3452210da2fb4d47ee2f8718e43d2e7d1dbe9eb8bc73cd72",
+    "src/material_balance_studio/aquifer/modified_veh.py": "05638a72c88778cefabf203af61c318c58e92ca74067fabec3891f1ce8a487f0",
+    "src/material_balance_studio/aquifer/none.py": "91d04f9b0a72e986edf970a26dc398d2ba41cdf4e6e08e131cb452ae5777b898",
+    "src/material_balance_studio/aquifer/pot.py": "2839bd09c80c35fcd48d51d05dbd81308e57b2d803c58a7cb029a0506fc2615e",
+    "src/material_balance_studio/aquifer/registry.py": "2cdf97a28be62195cd2991ce233b414ad9db47183f0c4a57105c7589bfb135a7",
+    "src/material_balance_studio/aquifer/schilthuis.py": "759de3b5bc6f9effc4b37bbe084a1e2c8e2b2de6725b7cacc385d87259745ad9",
+    "src/material_balance_studio/aquifer/state.py": "aeb4db4d00fa0395664746d744b3ea5d8c2e872e28558df6ba81b58d3066319c",
+    "src/material_balance_studio/aquifer/transient.py": "cfae8b2fe391bc4eeb6b082d106694c780c717725bb6837a3de0799d4db28039",
+    "src/material_balance_studio/aquifer/veh.py": "a50003c0606e9023d0514dd452ca5a29a7bd78abda8e3ca3b7e0890df896f447",
+    "src/material_balance_studio/aquifer/veh_response.py": "841cc2f03ded40acf902ac3ae562c8728ca097aa302f54023a3d5d454e553f32",
+    "src/material_balance_studio/aquifer/__init__.py": "48daeadd20238befcea862fb111bb75c036342a8e44c79ea7293f7766f529b96",
+    "src/material_balance_studio/mbe/expansion.py": "240175b5be03d01e5a9720858be7861acca14ca03db64be1ad8e05f2822c7258",
+    "src/material_balance_studio/mbe/oil_balance.py": "c3a185d0487b18c9bae70cf09dd9415b181335cd9c310743ad0ae497f784c9be",
+    "src/material_balance_studio/mbe/withdrawal.py": "64278d7beb9b72be51ceaa0d4943cbee47205a4536726af3ebb061e793da455c",
+    "src/material_balance_studio/mbe/__init__.py": "261004ae562d6573565a155e4537b6e9dbd837b7d99123c14f5665bfaafadfa4",
+    "src/material_balance_studio/solver/pressure_solver.py": "e9d154e532d426b498947a3ff9597de15143ed4bc8ebf2e693f90f53cede70f6",
+    "src/material_balance_studio/solver/simulation.py": "da39b12369c8c85850a8667443c53d94d03314a4ab2b352f507d893182e0ca05",
+    "src/material_balance_studio/solver/timestep.py": "d0d97ec46e0cda8657968943d5c3300423738396157a417a8e8a91be3ee4ff95",
+    "src/material_balance_studio/solver/__init__.py": "653f5b27d9d0667e367c90137d742ad79640bb6e4ad54e526df058e8b100e4a6",
+    "src/material_balance_studio/matching/objective.py": "7e3f9c10cc21795e880c45d09304eef766362411311f842e5ea7defb866c2aa5",
+    "src/material_balance_studio/matching/optimizer.py": "f8fb1d20e0e4868bb4a768da2ca0154deba356bbd3052dfa04247578d4d1aff0",
+    "src/material_balance_studio/matching/parameters.py": "f410855dc8a83d11299f207726c375ba83a59675d27c63aac9d7718d3d7bd3c6",
+    "src/material_balance_studio/matching/result.py": "d724d0fea615380f2ca89dccb489106c01e81680e8a36647bcc9f78de4d030a7",
+    "src/material_balance_studio/matching/weighting.py": "98f14684baec66c6c27ab2f78add7b81557bf74abdecf13e6d423920047e8a9f",
+    "src/material_balance_studio/matching/__init__.py": "061d6699d4bb7c4e38c6ccce820fb319b50f0da12fb047a0e20b612a94461ef0",
+    "src/material_balance_studio/uncertainty/confidence.py": "eb98a10db1c504fb40fca10425f36aa77ffaa7c6ff13ebb4099700b866b3edd8",
+    "src/material_balance_studio/uncertainty/context.py": "754b905a4741a5f1d19c8befa0a26cbfca18c2cb7bf3dcac7d359ab49e62e398",
+    "src/material_balance_studio/uncertainty/identifiability.py": "2cc7c6ce2c6f44cb78654f526e0f31cd0820ce7f480942aaef679b1df054f66b",
+    "src/material_balance_studio/uncertainty/jacobian.py": "435f38d1850928bd4958d20f4b36e242047d4e0c08424a4c11fc3d8617e040b3",
+    "src/material_balance_studio/uncertainty/objective_surface.py": "15fcbb449643deb24cec88b6d33b9b57520925496444587359e8f7cf12e93e8b",
+    "src/material_balance_studio/uncertainty/profile.py": "0abf8a523236f1a766f18ae84a51b58131243754ef14301fcfa438c0556be641",
+    "src/material_balance_studio/uncertainty/result.py": "9757db7d12ac368edaffdcb59f5a7044ef101b0eefab3d096b372dc571c881ff",
+    "src/material_balance_studio/uncertainty/sensitivity.py": "eac17d6564b22dda69b133891aba997ab87a7f2f1bc4b46b91f9297ce38ed913",
+    "src/material_balance_studio/uncertainty/__init__.py": "fae136678380d990b732086d99daae5b627c18586a3dc5979479112488394de1",
+    "src/material_balance_studio/tank_network/diagnostics.py": "8395b9839f4806013bca63c16279f7f16a93584317dbe075ef270a1722b55699",
+    "src/material_balance_studio/tank_network/history.py": "010b47461f6e3f6440a0616f78d1a70622091ceac5864de450153eb621a42940",
+    "src/material_balance_studio/tank_network/network.py": "05cc9adf21fd6691b2bc15af8165411d70a1f07602fd7a0a1764d49347dfc518",
+    "src/material_balance_studio/tank_network/residuals.py": "79c89b54907c722410b07f13d89dc798caa5d7d53598dade6868cbb1b72d3cac",
+    "src/material_balance_studio/tank_network/solver.py": "76f7024963627dba20db710f559175b9e7568fc72e6614365fe45e4d7a3a5104",
+    "src/material_balance_studio/tank_network/state.py": "c5b96d491f9bbd73a8a20f2762a6baef829f2509312b23fdd71de7ee68e0c670",
+    "src/material_balance_studio/tank_network/transfer.py": "b6be5ffb5eb0fae9555978bf9b0273d32806cadc596e70e14fa83e69e0dc8de5",
+    "src/material_balance_studio/tank_network/__init__.py": "1748002ffd20514369c8d47285b72a402a090d560a6553fdd26b040eafb3911b"
+  },
+  "maximum_individual_tank_relative_residual_during_valid_matching": 1.6473222785862163e-10,
+  "maximum_individual_tank_absolute_residual_during_valid_matching": 3.5183594926380124e-10,
+  "maximum_transfer_conservation_error": 0.0,
+  "minimum_closure_margin": 9.835267772141379e-09,
+  "matches": {
+    "T": {
+      "parameters": {
+        "connection:A:B:T": 8.000000000000317e-10
+      },
+      "converged": true,
+      "initial_objective": 0.27045894907078305,
+      "final_objective": 7.412126468153702e-26,
+      "initial_network_metrics_pa": {
+        "rmse": 130014.1696774776,
+        "mae": 101239.89656674443,
+        "bias": 1300.8413422498852,
+        "maximum": 346573.2475900017
+      },
+      "final_network_metrics_pa": {
+        "rmse": 6.806305196357318e-08,
+        "mae": 5.471520125865936e-08,
+        "bias": -5.145557224750519e-08,
+        "maximum": 1.30385160446167e-07
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 152987.25882209447,
+          "mae": 121487.87588008912,
+          "bias": 7805.048053722363,
+          "maximum": 346573.2475900017
+        },
+        "B": {
+          "rmse": 101991.50588136913,
+          "mae": 80991.91725339973,
+          "bias": -5203.365369222593,
+          "maximum": 231048.83172651008
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 7.95940332830753e-08,
+          "mae": 6.984919309616089e-08,
+          "bias": -6.984919309616089e-08,
+          "maximum": 1.30385160446167e-07
+        },
+        "B": {
+          "rmse": 5.412899362564232e-08,
+          "mae": 3.958120942115784e-08,
+          "bias": -3.306195139884949e-08,
+          "maximum": 1.1920928955078125e-07
+        }
+      },
+      "bounds": [
+        [
+          "connection:A:B:T",
+          false,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 20,
+      "closure_margin": 9.835267772141379e-09,
+      "history_fingerprint": "641c4b7ad375e674653aaef6e7100497806031edd951f691a5b8c123c3c97907",
+      "warnings": [
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C."
+      ],
+      "transfer_rates": [
+        0.00022016965649669147,
+        0.00038523125841104423,
+        0.0005089782490729772,
+        0.00017300016232480792,
+        -7.88832356383504e-05,
+        -0.0004415388385164704,
+        -0.0009172540479767387,
+        -0.0011846311539754322
+      ]
+    },
+    "N_A_N_B_T": {
+      "parameters": {
+        "tank:A:N": 1000000.0000000849,
+        "tank:B:N": 1500000.0000000326,
+        "connection:A:B:T": 8.000000000000073e-10
+      },
+      "converged": true,
+      "initial_objective": 1.6339212153392688,
+      "final_objective": 9.811595980124823e-27,
+      "initial_network_metrics_pa": {
+        "rmse": 319562.3193661986,
+        "mae": 238812.86024832982,
+        "bias": -220106.86438458296,
+        "maximum": 824471.9503652416
+      },
+      "final_network_metrics_pa": {
+        "rmse": 2.4763375148751458e-08,
+        "mae": 2.0256265997886658e-08,
+        "bias": 2.3283064365386963e-10,
+        "maximum": 5.21540641784668e-08
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 369637.62826374517,
+          "mae": 242516.18630727427,
+          "bias": -242516.18630727427,
+          "maximum": 824471.9503652416
+        },
+        "B": {
+          "rmse": 260015.7220034242,
+          "mae": 235109.53418938536,
+          "bias": -197697.54246189166,
+          "maximum": 361948.6868291646
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 2.7279962815114874e-08,
+          "mae": 2.561137080192566e-08,
+          "bias": 6.05359673500061e-09,
+          "maximum": 3.725290298461914e-08
+        },
+        "B": {
+          "rmse": 2.196026243744715e-08,
+          "mae": 1.4901161193847656e-08,
+          "bias": -5.587935447692871e-09,
+          "maximum": 5.21540641784668e-08
+        }
+      },
+      "bounds": [
+        [
+          "tank:A:N",
+          false,
+          false
+        ],
+        [
+          "tank:B:N",
+          false,
+          false
+        ],
+        [
+          "connection:A:B:T",
+          false,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 51,
+      "closure_margin": 9.835836206329987e-09,
+      "history_fingerprint": "641c4b7ad375e674653aaef6e7100497806031edd951f691a5b8c123c3c97907",
+      "warnings": [
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C."
+      ],
+      "transfer_rates": [
+        0.0002201696564967265,
+        0.0003852312584110444,
+        0.0005089782490729765,
+        0.00017300016232486823,
+        -7.888323563828838e-05,
+        -0.00044153883851637943,
+        -0.0009172540479766959,
+        -0.0011846311539753724
+      ]
+    },
+    "aquifer_J_T": {
+      "parameters": {
+        "tank:B:aquifer:productivity_index": 1.0000000000005448e-09,
+        "connection:A:B:T": 8.000000000000131e-10
+      },
+      "converged": true,
+      "initial_objective": 0.44875972202949044,
+      "final_objective": 3.8191672047105385e-26,
+      "initial_network_metrics_pa": {
+        "rmse": 167473.82669194357,
+        "mae": 125125.08887952263,
+        "bias": -57573.69736629096,
+        "maximum": 457592.493288897
+      },
+      "final_network_metrics_pa": {
+        "rmse": 4.8856724234685304e-08,
+        "mae": 4.0978193283081055e-08,
+        "bias": -2.8405338525772095e-08,
+        "maximum": 1.043081283569336e-07
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 186793.02611923136,
+          "mae": 122491.92231316539,
+          "bias": -49199.24436755339,
+          "maximum": 457592.493288897
+        },
+        "B": {
+          "rmse": 145613.63482485578,
+          "mae": 127758.25544587988,
+          "bias": -65948.15036502853,
+          "maximum": 217659.42845701054
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 5.3338039902137046e-08,
+          "mae": 4.936009645462036e-08,
+          "bias": -4.936009645462036e-08,
+          "maximum": 9.685754776000977e-08
+        },
+        "B": {
+          "rmse": 4.39205248748943e-08,
+          "mae": 3.259629011154175e-08,
+          "bias": -7.450580596923828e-09,
+          "maximum": 1.043081283569336e-07
+        }
+      },
+      "bounds": [
+        [
+          "tank:B:aquifer:productivity_index",
+          false,
+          false
+        ],
+        [
+          "connection:A:B:T",
+          false,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 37,
+      "closure_margin": 9.83674570103176e-09,
+      "history_fingerprint": "77f530086b51c17415f6003a3143282c289254a41150a4658f49619ab8c5d4dc",
+      "warnings": [
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C."
+      ],
+      "transfer_rates": [
+        0.0002011020860943082,
+        0.00032377849297169676,
+        0.00039679833817153626,
+        2.8416062093729244e-05,
+        -0.00023104766034352561,
+        -0.0005790707090896611,
+        -0.0009874583043775272,
+        -0.001192772484744163
+      ]
+    },
+    "m_A": {
+      "parameters": {
+        "tank:A:m": 0.19999999999994972
+      },
+      "converged": true,
+      "initial_objective": 1.0962028276678542,
+      "final_objective": 1.6014967130217882e-26,
+      "initial_network_metrics_pa": {
+        "rmse": 261749.2630920685,
+        "mae": 194004.02940007392,
+        "bias": -194004.02940007392,
+        "maximum": 534364.9614732005
+      },
+      "final_network_metrics_pa": {
+        "rmse": 3.16375638385546e-08,
+        "mae": 2.6542693376541138e-08,
+        "bias": -1.5832483768463135e-08,
+        "maximum": 5.960464477539063e-08
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 349465.4208102095,
+          "mae": 300691.2533929902,
+          "bias": -300691.2533929902,
+          "maximum": 534364.9614732005
+        },
+        "B": {
+          "rmse": 122062.5786898873,
+          "mae": 87316.80540715763,
+          "bias": -87316.80540715763,
+          "maximum": 255411.61244667694
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 1.596885565620125e-08,
+          "mae": 1.5366822481155396e-08,
+          "bias": 6.05359673500061e-09,
+          "maximum": 2.2351741790771484e-08
+        },
+        "B": {
+          "rmse": 4.179553254007711e-08,
+          "mae": 3.771856427192688e-08,
+          "bias": -3.771856427192688e-08,
+          "maximum": 5.960464477539063e-08
+        }
+      },
+      "bounds": [
+        [
+          "tank:A:m",
+          false,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 23,
+      "closure_margin": 9.837541508895811e-09,
+      "history_fingerprint": "0a5dcbff3369d0e07e9a0b8fa69a3f28cc9cbc850e0111de27c9050b80f83715",
+      "warnings": [
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C."
+      ],
+      "transfer_rates": [
+        0.00027522127026312354,
+        0.0005041096626990378,
+        0.0006944652124057055,
+        0.0004898724533159197,
+        0.0003197224220799059,
+        -4.452221256002784e-06,
+        -0.000498266726526159,
+        -0.0008398113008751571
+      ]
+    },
+    "correct_allocation": {
+      "parameters": {
+        "connection:A:B:T": 7.999999999207774e-10
+      },
+      "converged": true,
+      "initial_objective": 0.2221581974419518,
+      "final_objective": 2.4524414304893938e-21,
+      "initial_network_metrics_pa": {
+        "rmse": 117834.15184114488,
+        "mae": 92783.73572935746,
+        "bias": -18556.74714591843,
+        "maximum": 270773.8821323775
+      },
+      "final_network_metrics_pa": {
+        "rmse": 1.2380532678588071e-05,
+        "mae": 1.0216841474175453e-05,
+        "bias": -2.0849984139204025e-06,
+        "maximum": 2.6613473892211914e-05
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 138655.0706782619,
+          "mae": 111340.48287527589,
+          "bias": -111340.48287527589,
+          "maximum": 270773.8821323775
+        },
+        "B": {
+          "rmse": 92436.7137854336,
+          "mae": 74226.98858343903,
+          "bias": 74226.98858343903,
+          "maximum": 180515.92142146453
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 1.4604726002438413e-05,
+          "mae": 1.2301839888095856e-05,
+          "bias": -1.2301839888095856e-05,
+          "maximum": 2.6613473892211914e-05
+        },
+        "B": {
+          "rmse": 9.65697453682433e-06,
+          "mae": 8.13184306025505e-06,
+          "bias": 8.13184306025505e-06,
+          "maximum": 1.7583370208740234e-05
+        }
+      },
+      "bounds": [
+        [
+          "connection:A:B:T",
+          false,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 20,
+      "closure_margin": 9.995753496850882e-09,
+      "history_fingerprint": "2c4463f2025cdec117f8acd479eca76682d9425860172063f4be39e3a91dd9ed",
+      "warnings": [
+        "Field increments use constant rates between cumulative records. Fractions are piecewise constant from their effective dates; no interpolation or normalization of fractions.",
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C."
+      ],
+      "transfer_rates": [
+        -0.0001158787665672974,
+        -0.00020275329388573122,
+        -0.00026788328896904494,
+        -0.0003167113676993615,
+        -0.00020846941114034326,
+        -0.00030113836437277994,
+        -0.00042269730389933726,
+        -0.0004910198565829075
+      ]
+    },
+    "wrong_allocation": {
+      "parameters": {
+        "connection:A:B:T": 1.0106820269782596e-09
+      },
+      "converged": true,
+      "initial_objective": 0.3409376294580321,
+      "final_objective": 0.12986940944983927,
+      "initial_network_metrics_pa": {
+        "rmse": 145974.6616407348,
+        "mae": 116188.4653251702,
+        "bias": -1435.769482773263,
+        "maximum": 364143.1247810833
+      },
+      "final_network_metrics_pa": {
+        "rmse": 90093.4963835623,
+        "mae": 75670.71047307132,
+        "bias": 12384.36936457036,
+        "maximum": 184843.67162731662
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 171767.9188145265,
+          "mae": 139426.15839020768,
+          "bias": -8614.616896359716,
+          "maximum": 364143.1247810833
+        },
+        "B": {
+          "rmse": 114511.94587631566,
+          "mae": 92950.77226013271,
+          "bias": 5743.07793081319,
+          "maximum": 242762.08318721503
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 106012.72987096851,
+          "mae": 90804.85256768577,
+          "bias": 74306.21618764661,
+          "maximum": 184843.67162731662
+        },
+        "B": {
+          "rmse": 70675.15324733985,
+          "mae": 60536.56837845687,
+          "bias": -49537.47745850589,
+          "maximum": 123229.11441829428
+        }
+      },
+      "bounds": [
+        [
+          "connection:A:B:T",
+          false,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 23,
+      "closure_margin": 9.997678514773725e-09,
+      "history_fingerprint": "985e5f6af752ab35b039103f288817fc0767846bfbeb111e03df6ea940e3d52a",
+      "warnings": [
+        "Field increments use constant rates between cumulative records. Fractions are piecewise constant from their effective dates; no interpolation or normalization of fractions.",
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C."
+      ],
+      "transfer_rates": [
+        -3.531401894819448e-05,
+        -5.985326726429911e-05,
+        -7.690526887308386e-05,
+        -8.875448100546034e-05,
+        -9.698834301055089e-05,
+        -0.0003145940593482717,
+        -0.0005708802030058629,
+        -0.0006946325218901249
+      ]
+    },
+    "Unweighted": {
+      "parameters": {
+        "connection:A:B:T": 1.184417119598998e-10
+      },
+      "converged": true,
+      "initial_objective": 3.346263622164743,
+      "final_objective": 3.269169387564606,
+      "initial_network_metrics_pa": {
+        "rmse": 457319.8840913179,
+        "mae": 197358.79260093067,
+        "bias": -123699.15865775011,
+        "maximum": 1768951.16827349
+      },
+      "final_network_metrics_pa": {
+        "rmse": 452021.1131383001,
+        "mae": 231088.57437690673,
+        "bias": -120461.23084577452,
+        "maximum": 1680432.8836688958
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 152987.25882209447,
+          "mae": 121487.87588008912,
+          "bias": 7805.048053722363,
+          "maximum": 346573.2475900017
+        },
+        "B": {
+          "rmse": 628393.070783482,
+          "mae": 273229.7093217722,
+          "bias": -255203.3653692226,
+          "maximum": 1768951.16827349
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 217656.6782272938,
+          "mae": 175241.3567019496,
+          "bias": 27232.614925606176,
+          "maximum": 479350.67449691147
+        },
+        "B": {
+          "rmse": 601058.8522504565,
+          "mae": 286935.79205186386,
+          "bias": -268155.0766171552,
+          "maximum": 1680432.8836688958
+        }
+      },
+      "bounds": [
+        [
+          "connection:A:B:T",
+          false,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 47,
+      "closure_margin": 9.835267772141379e-09,
+      "history_fingerprint": "68f4c00b5b4f442cc2e788866f238a8a67177c6e6868f8131a55da62d36c3cbd",
+      "warnings": [
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C.",
+        "A: pressure RMSE worsened despite network optimization; review tank-level trade-off."
+      ],
+      "transfer_rates": [
+        3.6718383800265416e-05,
+        7.190403193145505e-05,
+        0.00010562092538588521,
+        6.642615331225848e-05,
+        2.886748879513432e-05,
+        -3.6111561948022336e-05,
+        -0.00015804562555984464,
+        -0.00027001236825823535
+      ]
+    },
+    "Pressure uncertainty weighted": {
+      "parameters": {
+        "connection:A:B:T": 7.999795453858116e-10
+      },
+      "converged": true,
+      "initial_objective": 542.813633600924,
+      "final_objective": 0.15999935593138354,
+      "initial_network_metrics_pa": {
+        "rmse": 457319.8840913179,
+        "mae": 197358.79260093067,
+        "bias": -123699.15865775011,
+        "maximum": 1768951.16827349
+      },
+      "final_network_metrics_pa": {
+        "rmse": 499997.9873004836,
+        "mae": 125002.37295439397,
+        "bias": -125000.05260939128,
+        "maximum": 1999991.9491375275
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 152987.25882209447,
+          "mae": 121487.87588008912,
+          "bias": 7805.048053722363,
+          "maximum": 346573.2475900017
+        },
+        "B": {
+          "rmse": 628393.070783482,
+          "mae": 273229.7093217722,
+          "bias": -255203.3653692226,
+          "maximum": 1768951.16827349
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 5.282398144706626,
+          "mae": 4.055174644570798,
+          "bias": -0.3156560924835503,
+          "maximum": 12.076294004917145
+        },
+        "B": {
+          "rmse": 707103.9347798635,
+          "mae": 250000.69073414337,
+          "bias": -249999.78956269007,
+          "maximum": 1999991.9491375275
+        }
+      },
+      "bounds": [
+        [
+          "connection:A:B:T",
+          false,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 20,
+      "closure_margin": 9.835267772141379e-09,
+      "history_fingerprint": "68f4c00b5b4f442cc2e788866f238a8a67177c6e6868f8131a55da62d36c3cbd",
+      "warnings": [
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C.",
+        "B: pressure RMSE worsened despite network optimization; review tank-level trade-off."
+      ],
+      "transfer_rates": [
+        0.00022016479640799133,
+        0.0003852239711490634,
+        0.0005089700541319739,
+        0.0001730014349944614,
+        -7.887672136146521e-05,
+        -0.00044152594935023266,
+        -0.0009172378045670815,
+        -0.0011846169663223525
+      ]
+    },
+    "restrictive_T": {
+      "parameters": {
+        "connection:A:B:T": 4.999999999987197e-10
+      },
+      "converged": true,
+      "initial_objective": 0.27045894907078305,
+      "final_objective": 0.0860513644046667,
+      "initial_network_metrics_pa": {
+        "rmse": 130014.1696774776,
+        "mae": 101239.89656674443,
+        "bias": 1300.8413422498852,
+        "maximum": 346573.2475900017
+      },
+      "final_network_metrics_pa": {
+        "rmse": 73336.28212073249,
+        "mae": 56274.80092780921,
+        "bias": -67.94193274737336,
+        "maximum": 197545.83587858826
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 152987.25882209447,
+          "mae": 121487.87588008912,
+          "bias": 7805.048053722363,
+          "maximum": 346573.2475900017
+        },
+        "B": {
+          "rmse": 101991.50588136913,
+          "mae": 80991.91725339973,
+          "bias": -5203.365369222593,
+          "maximum": 231048.83172651008
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 86294.56928954499,
+          "mae": 67529.76111337077,
+          "bias": -407.65159627143294,
+          "maximum": 197545.83587858826
+        },
+        "B": {
+          "rmse": 57529.71285966283,
+          "mae": 45019.840742247645,
+          "bias": 271.7677307766862,
+          "maximum": 131697.22391891852
+        }
+      },
+      "bounds": [
+        [
+          "connection:A:B:T",
+          false,
+          true
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 20,
+      "closure_margin": 9.841520548216067e-09,
+      "history_fingerprint": "641c4b7ad375e674653aaef6e7100497806031edd951f691a5b8c123c3c97907",
+      "warnings": [
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C.",
+        "connection:A:B:T: upper bound limited; weak communication/parameter constraint may remain."
+      ],
+      "transfer_rates": [
+        0.0001449154886839367,
+        0.0002659567260317288,
+        0.00036705690015208605,
+        0.00016929737564605336,
+        4.1179475469372025e-06,
+        -0.0002482557904111011,
+        -0.000635120292450383,
+        -0.0009050160011310462
+      ]
+    },
+    "zero_T": {
+      "parameters": {
+        "connection:A:B:T": 4.338402570792328e-15
+      },
+      "converged": true,
+      "initial_objective": 0.14916088679192852,
+      "final_objective": 3.820897679242841e-11,
+      "initial_network_metrics_pa": {
+        "rmse": 96553.38121731176,
+        "mae": 77985.66164352838,
+        "bias": -7057.40787334647,
+        "maximum": 204953.3869285658
+      },
+      "final_network_metrics_pa": {
+        "rmse": 1.545335254734964,
+        "mae": 1.3340556968469173,
+        "bias": -0.1731008922215551,
+        "maximum": 2.6238533407449722
+      },
+      "initial_tank_metrics_pa": {
+        "A": {
+          "rmse": 113614.0557531774,
+          "mae": 93582.79397223284,
+          "bias": -42344.447240091395,
+          "maximum": 204953.3869285658
+        },
+        "B": {
+          "rmse": 75742.70383545179,
+          "mae": 62388.529314823914,
+          "bias": 28229.631493398454,
+          "maximum": 136635.59128570184
+        }
+      },
+      "final_tank_metrics_pa": {
+        "A": {
+          "rmse": 1.8183910644153451,
+          "mae": 1.6008668350987136,
+          "bias": -1.0386053607799113,
+          "maximum": 2.6238533407449722
+        },
+        "B": {
+          "rmse": 1.212260712845211,
+          "mae": 1.067244558595121,
+          "bias": 0.692403576336801,
+          "maximum": 1.749235525727272
+        }
+      },
+      "bounds": [
+        [
+          "connection:A:B:T",
+          true,
+          false
+        ]
+      ],
+      "failed_candidates": 0,
+      "evaluations": 53,
+      "closure_margin": 9.83583787513397e-09,
+      "history_fingerprint": "96839eaea976291e6a8b280b2c5ed0ae0a3275cb05ecd49ea1d1f9e6d92e7786",
+      "warnings": [
+        "A good network pressure fit does not establish unique parameters; multi-tank identifiability is deferred to Phase 5C.",
+        "connection:A:B:T: lower bound limited; weak communication/parameter constraint may remain."
+      ],
+      "transfer_rates": [
+        1.3738264079125402e-09,
+        2.7476506701504112e-09,
+        4.1214727867167965e-09,
+        2.8199465948384986e-09,
+        1.5184224357146057e-09,
+        -8.676994863784462e-10,
+        -5.639932150464957e-09,
+        -1.041214990779076e-08
+      ]
+    }
+  }
+}

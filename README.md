@@ -1,8 +1,24 @@
-# Material Balance Studio — Phase 4B
+# Material Balance Studio
+
+Single- and Multi-Tank Material Balance, History Matching and Reservoir Diagnostics.
+
+The post-5C engineering workflow revision adds project-unit CSV templates, sparse
+laboratory inputs, History X/Y plots, a dedicated pressure-versus-cumulative-oil
+Results panel, and optional independently bounded aquifer comparison matches.
+See the [workflow and regression report](docs/post5c_engineering_ux.md).
 
 An auditable calculation foundation for a single equilibrated black-oil tank with
 tabulated or correlation PVT, cumulative production/injection, and optional stateful aquifer support. The Streamlit
 interface is a functional test harness. The engine runs without Streamlit.
+
+Phase 5C adds **Network Identifiability**: network/observation sensitivity, scaled
+Jacobian rank and SVD, parameter correlation, conditional objective surfaces,
+bounded re-optimized profiles, connection observability and conditional local
+confidence. Separate deterministic allocation cases quantify fitted N/m/T/aquifer
+drift under engineer-selected schedules. Allocation fractions are never optimized.
+See the [Phase 5C method](docs/network_identifiability_phase_5c.md) and
+[acceptance report](docs/phase_5c_acceptance.md). The validated forward and matching
+engines remain unchanged.
 Phase 1.1 stabilizes units and engineering diagnostics; the Phase 1 equations,
 PVT interpolation and reservoir expansion/withdrawal physics are preserved. Phase 3
 extends domain state and the chronological solver to include aquifer influx explicitly.
@@ -18,7 +34,8 @@ Beggs–Robinson/Vasquez–Beggs oil viscosity; Sutton pseudo-critical propertie
 and independently selected Dranchuk–Abou-Kassem z; real-gas Bg;
 McCain Bw; Vasquez–Beggs undersaturated oil compressibility. Temperature input
 is °C in SI or °F in FIELD, stored in K. At least measured Pb or Rsb is needed.
-Source-file pressures remain Pa/psia; the lab editor uses MPa/psia.
+Primary SI templates use explicitly tagged MPa headers; FIELD templates use psia.
+Legacy plain SI headers still mean Pa. File units are independent of project units.
 
 Phase 2.1 adds dense before/after QC, full-range matching-deviation reports,
 per-property model summaries, and browser visual acceptance. See the
@@ -399,6 +416,19 @@ See [network formulation and scope](docs/tank_network_phase_5a.md) and
 [Phase 5A acceptance](docs/phase_5a_acceptance.md). Communication is a lumped
 reservoir-volume model; fluid phases/composition are not transported.
 
+## Phase 5B: network allocation and history matching
+
+Open **Network History & Matching** after configuring a network. Keep direct tank
+histories or explicitly allocate selected field streams with piecewise-constant
+effective-date schedules. Add tank-specific pressure metadata, inspect allocation
+conservation, and fit selected N, m, aquifer parameters and connection T with
+physical bounds. Runs create separate scenarios; applying parameters is explicit.
+Signed transfer drive indices and before/after pressure, residual and connection
+plots remain auditable against the unchanged Phase 5A forward model.
+
+See [Phase 5B methods](docs/network_history_matching_phase_5b.md) and
+[acceptance evidence](docs/phase_5b_acceptance.md).
+
 **Intentionally deferred:** finite VEH boundary behavior, global optimization,
-Bayesian/Monte Carlo uncertainty, multi-tank history matching and uncertainty,
-time-varying allocation, forecasting, DCA, forecast uncertainty and PDF reporting.
+Bayesian/Monte Carlo uncertainty,
+automatic allocation fitting, forecasting, DCA, forecast uncertainty and PDF reporting.
